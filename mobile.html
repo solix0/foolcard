@@ -168,6 +168,43 @@
             gap: 14px;
         }
 
+        /* НОВІ ХОВЕР-ЕЛЕМЕНТИ ДЛЯ ТЕКСТУ (НЕ КНОПКИ) */
+        .info-hover-card-1,
+        .info-hover-card-2,
+        .info-hover-card-3 {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 8px;
+            padding: 10px 14px;
+            text-align: center;
+            transition: all 0.25s ease;
+            cursor: default;
+        }
+
+        /* 1 ховер фон */
+        .info-hover-card-1:hover {
+            background: rgba(255, 255, 255, 0.07);
+            border-color: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+        }
+
+        /* 2 ховер фон (з легким відтінком синюватого/сірого) */
+        .info-hover-card-2:hover {
+            background: rgba(255, 255, 255, 0.07);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+        }
+
+        /* 3 ховер фон (трохи яскравіший ефект) */
+        .info-hover-card-3:hover {
+            background: rgba(255, 255, 255, 0.07);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+        }
+
         header {
             text-align: center;
             background: rgba(0, 0, 0, 0.4);
@@ -643,7 +680,10 @@
     <div id="main-menu" class="screen hidden">
         <div class="menu-container">
             <h1>FOOLCARD</h1>
-            <p id="welcome-user">Вітаємо!</p>
+            <!-- 1 ховер фон для тексту "Вітаємо!" -->
+            <div class="info-hover-card-1" style="margin-bottom: 15px;">
+                <p id="welcome-user" style="margin-bottom: 0; color: #9e9e9e; font-size: 15px;">Вітаємо!</p>
+            </div>
             <div class="menu-buttons">
                 <button onclick="showPlayMenu()">Грати</button>
                 <button onclick="openProfileModal()" style="background: #37474f; color: #fff;">Профіль</button>
@@ -660,9 +700,17 @@
             </div>
 
             <div id="tab-create" class="tab-content active">
-                <p style="margin-bottom: 0; color: #9e9e9e; font-size: 13px;">Ваш нік для друга:</p>
-                <h1 id="room-code-display" style="color: #ffffff; font-size: 20px; letter-spacing: 1px; margin: 4px 0; word-break: break-all;">----</h1>
-                <p id="wait-status" style="font-size: 12px; margin-bottom: 4px;">Очікування підключення...</p>
+                <!-- 2 ховер фон для "Ваш нік для друга:" та коду -->
+                <div class="info-hover-card-2">
+                    <p style="margin-bottom: 0; color: #9e9e9e; font-size: 13px;">Ваш нік для друга:</p>
+                    <h1 id="room-code-display" style="color: #ffffff; font-size: 24px; letter-spacing: 2px; margin: 4px 0; word-break: break-all;">----</h1>
+                </div>
+                
+                <!-- 3 ховер фон для "Очікування підключення..." -->
+                <div class="info-hover-card-3">
+                    <p id="wait-status" style="font-size: 13px; margin-bottom: 0; color: #e0e0e0;">Очікування підключення...</p>
+                </div>
+
                 <button onclick="returnToMainFromPlay()" style="background: #37474f; color: #fff;">Назад</button>
             </div>
 
