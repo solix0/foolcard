@@ -249,20 +249,21 @@
             position: relative;
         }
 
+        /* Контейнер руки - фіксоване вирівнювання з підтримкою динамічного нахльосту */
         .hand {
             display: flex;
-            gap: 10px;
             min-height: 140px;
             align-items: center;
             justify-content: center;
-            flex-wrap: wrap;
-            padding: 10px;
+            flex-wrap: nowrap;
+            padding: 10px 15px;
             background: rgba(0, 0, 0, 0.25);
             border: 1px solid rgba(255,255,255,0.04);
             border-radius: 12px;
             width: 100%;
             box-shadow: inset 0 4px 10px rgba(0,0,0,0.4);
             backdrop-filter: blur(4px);
+            overflow: hidden;
         }
 
         .my-hand-container {
@@ -383,10 +384,12 @@
             transition: transform 0.2s;
             position: relative;
             border: 1px solid #ccc;
+            flex-shrink: 0;
         }
 
         .card:hover {
-            transform: translateY(-8px);
+            transform: translateY(-8px) scale(1.05);
+            z-index: 50 !important;
         }
 
         .card.red {
@@ -486,7 +489,6 @@
             width: 100%;
         }
 
-        /* Кастомний стиль прокрутки для модального вікна правил */
         .rules-scroll-container {
             max-height: 60vh;
             overflow-y: auto;
@@ -601,7 +603,6 @@
 
     <div id="toast-container"></div>
 
-    <!-- ЕКРАН РЕЄСТРАЦІЇ / ВХОДУ -->
     <div id="auth-screen" class="screen">
         <div class="menu-container">
             <h1>FOOLCARD</h1>
@@ -613,7 +614,6 @@
         </div>
     </div>
 
-    <!-- ГОЛОВНЕ МЕНЮ -->
     <div id="main-menu" class="screen hidden">
         <div class="menu-container">
             <h1>FOOLCARD</h1>
@@ -626,16 +626,13 @@
         </div>
     </div>
 
-    <!-- ЕКРАН МЕНЮ «ГРАТИ» З ДВОМА ВКЛАДКАМИ ЗВЕРХУ -->
     <div id="play-menu" class="screen hidden">
         <div class="menu-container">
-            <!-- Верхні вкладки -->
             <div class="tabs-header">
                 <button class="tab-btn active" id="tab-create-btn" onclick="switchTab('create')">Створити</button>
                 <button class="tab-btn" id="tab-join-btn" onclick="switchTab('join')">Підключитися</button>
             </div>
 
-            <!-- Вміст вкладки: Створити -->
             <div id="tab-create" class="tab-content active">
                 <p style="margin-bottom: 0; color: #9e9e9e; font-size: 14px;">Ваш нік (код) для друга:</p>
                 <h1 id="room-code-display" style="color: #ffffff; font-size: 26px; letter-spacing: 2px; margin: 4px 0; word-break: break-all;">----</h1>
@@ -643,7 +640,6 @@
                 <button onclick="returnToMainFromPlay()" style="background: #37474f; color: #fff;">Назад</button>
             </div>
 
-            <!-- Вміст вкладки: Підключитися -->
             <div id="tab-join" class="tab-content">
                 <input type="text" id="room-code-input" maxlength="20" placeholder="Нік друга" style="margin-bottom: 0;" />
                 <button onclick="connectToGame()">Грати</button>
@@ -652,7 +648,6 @@
         </div>
     </div>
 
-    <!-- МОДАЛЬНЕ ВІКНО ПРОФІЛЮ -->
     <div id="profile-modal" class="modal-overlay hidden">
         <div class="modal-card">
             <h2>Профіль гравця</h2>
@@ -673,7 +668,6 @@
         </div>
     </div>
 
-    <!-- МОДАЛЬНЕ ВІКНО ПРАВИЛ ТА ІНСТРУКЦІЇ -->
     <div id="rules-modal" class="modal-overlay hidden">
         <div class="modal-card" style="max-width: 480px; text-align: left;">
             <h2 style="text-align: center; margin-bottom: 15px;">Правила та інструкція</h2>
@@ -689,7 +683,7 @@
                     <p><strong>Кнопки та інтерфейс (що до чого):</strong></p>
                     <ul style="padding-left: 20px; display: flex; flex-direction: column; gap: 6px;">
                         <li><strong>Колода та козир:</strong> Праворуч знаходиться колода. Карта під нею (розгорнута) визначає козирну масть партії.</li>
-                        <li><strong>«Бито» (зліва):</strong> Натискається атакуючим гравцем, коли захисник успішно відбив усі карти на столі. Каррти йдуть у скидання.</li>
+                        <li><strong>«Бито» (зліва):</strong> Натискається атакуючим гравцем, коли захисник успішно відбив усі карти на столі. Карти йдуть у скидання.</li>
                         <li><strong>«Взяти» (на столі):</strong> Натискається гравцем, що захищається, якщо він не може або не хоче відбитися. Усі карти зі столу забираються йому в руку.</li>
                         <li><strong>Esc (Клавіатура):</strong> Відкриває меню паузи під час гри, де можна переглянути ці правила або вийти в головне меню.</li>
                     </ul>
@@ -721,7 +715,6 @@
         </div>
     </div>
 
-    <!-- ІГРОВИЙ ЕКРАН -->
     <div id="game-screen" class="screen hidden">
         <header>
             <div class="player-hud" id="opponent-hud">
@@ -764,7 +757,6 @@
         </div>
     </div>
 
-    <!-- МОДАЛЬНЕ ВІКНО ПАУЗИ -->
     <div id="pause-modal" class="modal-overlay hidden">
         <div class="modal-card">
             <h2>Пауза</h2>
@@ -1179,6 +1171,42 @@
             `;
         }
 
+        // Повністю переписана перевірка екрану та нахльосту для ідеального заповнення ширини
+        function applyCardOverlap(handElement) {
+            const cards = handElement.querySelectorAll('.card');
+            if (cards.length === 0) return;
+
+            const cardWidth = 80;
+            const containerWidth = handElement.clientWidth - 30; // враховуємо внутрішні відступи падінгів
+
+            cards.forEach((card, index) => {
+                card.style.zIndex = index;
+                if (index === 0) {
+                    card.style.marginLeft = '0px';
+                } else {
+                    card.style.marginLeft = '10px';
+                }
+            });
+
+            if (cards.length <= 1) return;
+
+            // Обчислюємо загальну ширину стандартного розміщення (з відступом 10px між картами)
+            const totalNaturalWidth = cards.length * cardWidth + (cards.length - 1) * 10;
+
+            if (totalNaturalWidth > containerWidth) {
+                // Якщо карт багато і вони не влізають — розраховуємо необхідний від'ємний відступ (нахльост)
+                // Щоб усі карти рівномірно зайняли рівно всю ширину контейнера від краю до краю
+                const availableSpaceForGaps = containerWidth - (cards.length * cardWidth);
+                const exactGap = availableSpaceForGaps / (cards.length - 1);
+
+                cards.forEach((card, index) => {
+                    if (index > 0) {
+                        card.style.marginLeft = `${exactGap}px`;
+                    }
+                });
+            }
+        }
+
         function updateUI() {
             const deckCountEl = document.getElementById('deck-count');
             if (deck.length === 1) {
@@ -1242,13 +1270,17 @@
             for (let i = 0; i < oppHand.length; i++) {
                 oppHTML += `<div class="card back">?</div>`;
             }
-            document.getElementById('opponent-hand').innerHTML = oppHTML;
+            const oppHandEl = document.getElementById('opponent-hand');
+            oppHandEl.innerHTML = oppHTML;
+            applyCardOverlap(oppHandEl);
 
             let playerHTML = '';
             myHand.forEach(card => {
                 playerHTML += renderCard(card);
             });
-            document.getElementById('player-hand').innerHTML = playerHTML;
+            const playerHandEl = document.getElementById('player-hand');
+            playerHandEl.innerHTML = playerHTML;
+            applyCardOverlap(playerHandEl);
 
             let tableHTML = '';
             table.forEach(pair => {
