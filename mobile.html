@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="icon" type="image/png" href="logo.png">
     <title>FOOLCARD - Mobile</title>
-    <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js">
-    </script>
+    <!-- Підключаємо PeerJS для P2P з'єднання через код -->
+    <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
     <style>
         * {
             box-sizing: border-box;
@@ -18,7 +18,7 @@
             -webkit-touch-callout: none;
         }
 
-        body {
+body {
             background: #121212;
             color: #e0e0e0;
             display: flex;
@@ -29,7 +29,7 @@
             min-height: 100dvh;
             overflow-x: hidden;
             position: relative;
-            width: 100%;
+            width: 100%; /* Змінено з 100vw на 100% */
             margin: 0;
         }
 
@@ -47,20 +47,18 @@
             background: #121212;
             transition: opacity 0.3s ease;
             z-index: 10;
-            box-sizing: border-box;
+            box-sizing: border-box; /* Додано, щоб відступи не розширювали ширину */
         }
 
-        #main-menu,
-        #auth-screen,
-        #play-menu {
+        /* КРАСИВИЙ ФОН ДЛЯ ГОЛОВНОГО МЕНЮ ТА ЕКРАНІВ АВТОРИЗАЦІЇ/ГРИ */
+        #main-menu, #auth-screen, #play-menu {
             background: radial-gradient(circle at center, #1b4d3e 0%, #0d231b 60%, #071410 100%);
             position: relative;
             overflow: hidden;
         }
 
-        #main-menu::before,
-        #auth-screen::before,
-        #play-menu::before {
+        /* Декоративні елементи (патерн карткових мастей на фоні) */
+        #main-menu::before, #auth-screen::before, #play-menu::before {
             content: "♠ ♣ ♦ ♥ ♠ ♣ ♦ ♥";
             position: absolute;
             top: -50px;
@@ -77,7 +75,7 @@
             white-space: nowrap;
         }
 
-        #game-screen {
+#game-screen {
             background: radial-gradient(circle at center, #1b4d3e 0%, #0d231b 60%, #071410 100%);
             justify-content: space-between;
             padding: 8px;
@@ -85,7 +83,7 @@
             position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
+            width: 100%; /* Змінено з 100vw на 100% */
             height: 100vh;
             height: 100dvh;
             box-sizing: border-box;
@@ -115,7 +113,7 @@
             margin-bottom: 10px;
             color: #ffffff;
             letter-spacing: 3px;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
         }
 
         .menu-container p {
@@ -141,7 +139,7 @@
             border-radius: 10px;
             cursor: pointer;
             font-weight: bold;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
             transition: transform 0.15s ease, background 0.2s ease, box-shadow 0.2s ease;
             width: 100%;
             -webkit-tap-highlight-color: transparent;
@@ -165,7 +163,7 @@
             font-size: 18px;
             text-align: center;
             border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255,255,255,0.2);
             margin-bottom: 14px;
             background: rgba(0, 0, 0, 0.4);
             color: #fff;
@@ -182,7 +180,7 @@
             background: rgba(12, 12, 12, 0.6);
             border-radius: 10px;
             margin-bottom: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255,255,255,0.1);
             overflow: hidden;
             padding: 3px;
         }
@@ -197,15 +195,17 @@
             font-weight: bold;
             cursor: pointer;
             box-shadow: none;
-            border-radius: 0px;
+            border-radius: 0px; /* прибираємо фіксоване заокруглення */
             transition: background 0.2s, color 0.2s;
             width: auto;
         }
 
+        /* Заокруглюємо лівий край першої кнопки */
         .tab-btn:first-child {
             border-radius: 8px 0px 0px 8px;
         }
 
+        /* Заокруглюємо правий край другої кнопки (відзеркалено) */
         .tab-btn:last-child {
             border-radius: 0px 8px 8px 0px;
         }
@@ -213,7 +213,7 @@
         .tab-btn.active {
             background: #ffffff;
             color: #121212;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
         }
 
         .tab-content {
@@ -226,6 +226,7 @@
             gap: 12px;
         }
 
+        /* ХОВЕР-ЕЛЕМЕНТИ ДЛЯ ТЕКСТУ */
         .info-hover-card-1,
         .info-hover-card-2,
         .info-hover-card-3 {
@@ -244,7 +245,7 @@
             background: rgba(255, 255, 255, 0.08);
             border-color: rgba(255, 255, 255, 0.2);
             transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.4);
         }
 
         header {
@@ -256,8 +257,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255,255,255,0.05);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
             backdrop-filter: blur(4px);
             position: relative;
             z-index: 1;
@@ -274,7 +275,7 @@
             height: 36px;
             border-radius: 50%;
             overflow: hidden;
-            border: 2px solid rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255,255,255,0.2);
             flex-shrink: 0;
             background: #000;
         }
@@ -312,12 +313,12 @@
         .menu-trigger-btn {
             background: rgba(255, 255, 255, 0.1);
             color: #fff;
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255,255,255,0.15);
             padding: 6px 10px;
             font-size: 12px;
             border-radius: 8px;
             width: auto;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
         }
 
         .board-container {
@@ -348,17 +349,17 @@
             justify-content: flex-start;
             padding: 4px 6px;
             background: rgba(0, 0, 0, 0.25);
-            border: 1px solid rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255,255,255,0.04);
             border-radius: 12px;
             width: 100%;
-            box-shadow: inset 0 4px 10px rgba(0, 0, 0, 0.4);
+            box-shadow: inset 0 4px 10px rgba(0,0,0,0.4);
             backdrop-filter: blur(4px);
             overflow-x: auto;
             overflow-y: hidden;
             gap: 6px;
             -webkit-overflow-scrolling: touch;
         }
-
+        
         .hand::-webkit-scrollbar {
             display: none;
         }
@@ -404,7 +405,7 @@
         .discard-area.active-discard .discard-card-view {
             border-color: #ffffff;
             background: rgba(255, 255, 255, 0.15);
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+            box-shadow: 0 0 10px rgba(255,255,255,0.6);
         }
 
         .discard-card-view {
@@ -414,7 +415,7 @@
             background: rgba(255, 255, 255, 0.08);
             border: 2px dashed rgba(255, 255, 255, 0.2);
             border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
             transition: all 0.2s ease;
         }
 
@@ -424,7 +425,7 @@
             font-weight: bold;
             color: #ffffff;
             z-index: 6;
-            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.9);
+            text-shadow: 0 2px 6px rgba(0,0,0,0.9);
             pointer-events: none;
         }
 
@@ -432,7 +433,7 @@
             position: absolute;
             bottom: -16px;
             font-size: 11px;
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(255,255,255,0.7);
             font-weight: 500;
             text-align: center;
             width: 100%;
@@ -448,9 +449,9 @@
             flex-grow: 1;
             padding: 4px;
             margin: 0 4px;
-            background: rgba(0, 0, 0, 0.15);
+            background: rgba(0,0,0,0.15);
             border-radius: 10px;
-            border: 1px dashed rgba(255, 255, 255, 0.1);
+            border: 1px dashed rgba(255,255,255,0.1);
             max-height: 100%;
             overflow-y: auto;
         }
@@ -459,7 +460,7 @@
             cursor: pointer;
             border-color: rgba(255, 255, 255, 0.6);
             background: rgba(255, 255, 255, 0.08);
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 10px rgba(255,255,255,0.3);
         }
 
         .deck-area {
@@ -470,7 +471,6 @@
             align-items: center;
             justify-content: flex-end;
             flex-shrink: 0;
-            cursor: pointer;
         }
 
         .card {
@@ -486,7 +486,7 @@
             font-weight: bold;
             font-size: 13px;
             cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.6);
             position: relative;
             border: 1px solid #b5b5b5;
             flex-shrink: 0;
@@ -510,7 +510,7 @@
             width: 38px;
             height: 55px;
             padding: 0;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.6);
         }
 
         .deck-card-back {
@@ -520,7 +520,7 @@
             background: linear-gradient(135deg, #b71c1c 50%, #1a1a1a 50%);
             border: 1.5px solid #ddd;
             border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.6);
             z-index: 2;
             right: 0;
         }
@@ -530,20 +530,11 @@
             width: 60px;
             height: 85px;
             border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.6);
             transform: rotate(90deg) translateY(-12px);
             transform-origin: center;
             right: 25px;
             z-index: 1;
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-            opacity: 1;
-        }
-
-        .deck-card-trump.reveal {
-            transform: rotate(0deg) scale(1) !important;
-            z-index: 10;
-            opacity: 1 !important;
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
         }
 
         .deck-counter {
@@ -555,7 +546,7 @@
             font-weight: bold;
             color: #ffffff;
             z-index: 6;
-            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.9);
+            text-shadow: 0 2px 6px rgba(0,0,0,0.9);
             pointer-events: none;
         }
 
@@ -602,24 +593,13 @@
             padding: 25px 20px;
             border-radius: 14px;
             text-align: center;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.7);
+            border: 1px solid rgba(255,255,255,0.1);
             max-width: 380px;
             width: 100%;
             max-height: 90vh;
             display: flex;
             flex-direction: column;
-        }
-
-        .modal-card.draw h2 {
-            color: #ffd700;
-        }
-        .modal-card.draw p {
-            color: #e0c070;
-        }
-        .modal-card.draw button {
-            background: #ffd700;
-            color: #1a1a1a;
         }
 
         .rules-scroll-container {
@@ -659,9 +639,9 @@
             margin: 0 auto 12px auto;
             border-radius: 50%;
             overflow: hidden;
-            border: 2px solid rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255,255,255,0.2);
             cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
         }
 
         .avatar-container img {
@@ -676,7 +656,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0,0,0,0.5);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -706,138 +686,30 @@
             padding: 12px 20px;
             border-radius: 8px;
             font-size: 14px;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.6);
             border-left: 4px solid #ffffff;
             animation: fadeInOut 3s forwards;
             pointer-events: auto;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255,255,255,0.1);
         }
 
         @keyframes fadeInOut {
-            0% {
-                opacity: 0;
-                transform: translateY(-15px);
-            }
-            15% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-            85% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-            100% {
-                opacity: 0;
-                transform: translateY(-15px);
-            }
-        }
-
-        .deck-size-selector {
-            display: flex;
-            gap: 0px;
-            justify-content: center;
-            background: rgba(12, 12, 12, 0.6);
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            overflow: hidden;
-            padding: 3px;
-        }
-
-        .deck-size-selector button {
-            flex: 1;
-            background: transparent;
-            color: #9e9e9e;
-            border: none;
-            padding: 10px;
-            font-size: 14px;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: none;
-            border-radius: 0px;
-            transition: background 0.2s, color 0.2s;
-            width: auto;
-        }
-
-        .deck-size-selector button:first-child {
-            border-radius: 8px 0px 0px 8px;
-        }
-
-        .deck-size-selector button:last-child {
-            border-radius: 0px 8px 8px 0px;
-        }
-
-        .deck-size-selector button:hover {
-            background: rgba(255, 255, 255, 0.05);
-            transform: none;
-            color: #fff;
-        }
-
-        .deck-size-selector button.active-deck-size {
-            background: #ffffff;
-            color: #121212;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Стилі для джокера - як на ПК */
-        .card.joker-card {
-            background: #f0f0f0;
-            color: #c62828;
-            border: 1px solid #b5b5b5;
-            padding: 6px 8px;
-        }
-
-        .card.joker-card .joker-text {
-            display: flex;
-            flex-direction: column;
-            font-size: 10px;
-            font-weight: 900;
-            line-height: 1.05;
-            letter-spacing: 0.2px;
-        }
-
-        .card.joker-card .joker-top-left {
-            align-items: flex-start;
-            color: #c62828;
-            padding-top: 2px;
-            padding-left: 2px;
-        }
-
-        .card.joker-card .joker-bottom-right {
-            align-items: flex-end;
-            color: #111111;
-            padding-bottom: 2px;
-            padding-right: 2px;
-        }
-
-        /* Адаптація для мобільних екранів */
-        @media (max-width: 480px) {
-            .card.joker-card .joker-text {
-                font-size: 8px;
-                line-height: 1.0;
-            }
-            .card.joker-card {
-                padding: 4px 5px;
-            }
-            .card.joker-card .joker-top-left {
-                padding-top: 1px;
-                padding-left: 1px;
-            }
-            .card.joker-card .joker-bottom-right {
-                padding-bottom: 4px;
-                padding-right: 1px;
-            }
+            0% { opacity: 0; transform: translateY(-15px); }
+            15% { opacity: 1; transform: translateY(0); }
+            85% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(-15px); }
         }
     </style>
 </head>
 <body>
 
-    <div id="desktop-redirect-banner" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #121212; z-index: 9999; display: flex; align-items: center; justify-content: center;">
-        <div style="background: #1a1a1a; padding: 30px; border-radius: 16px; text-align: center; max-width: 320px; border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 15px 35px rgba(0,0,0,0.7);">
-            <h1 style="color: #ffffff; font-size: 28px; margin-bottom: 12px;">FOOLCARD</h1>
-            <p style="color: #9e9e9e; font-size: 15px; margin-bottom: 20px; line-height: 1.4;">Ви використовуєте Mobile версію. Будь ласка, перейдіть на ПК версію гри.</p>
-            <a href="https://solix0.github.io/foolcard" style="display: block; background: #ffffff; color: #121212; text-decoration: none; padding: 12px 24px; font-size: 16px; border-radius: 8px; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">Перейти на ПК версію</a>
-        </div>
+<div id="desktop-redirect-banner" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #121212; z-index: 9999; display: flex; align-items: center; justify-content: center;">
+    <div style="background: #1a1a1a; padding: 30px; border-radius: 16px; text-align: center; max-width: 320px; border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 15px 35px rgba(0,0,0,0.7);">
+        <h1 style="color: #ffffff; font-size: 28px; margin-bottom: 12px;">FOOLCARD</h1>
+        <p style="color: #9e9e9e; font-size: 15px; margin-bottom: 20px; line-height: 1.4;">Ви використовуєте Mobile версію. Будь ласка, перейдіть на ПК версію гри.</p>
+        <a href="https://solix0.github.io/foolcard" style="display: block; background: #ffffff; color: #121212; text-decoration: none; padding: 12px 24px; font-size: 16px; border-radius: 8px; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">Перейти на ПК версію</a>
     </div>
+</div>
 
     <div id="toast-container"></div>
 
@@ -855,6 +727,7 @@
     <div id="main-menu" class="screen hidden">
         <div class="menu-container">
             <h1>FOOLCARD</h1>
+            <!-- 1 ховер фон для тексту "Вітаємо!" -->
             <div class="info-hover-card-1" style="margin-bottom: 12px;">
                 <p id="welcome-user" style="margin-bottom: 0; color: #b0bec5; font-size: 15px;">Вітаємо!</p>
             </div>
@@ -874,16 +747,13 @@
             </div>
 
             <div id="tab-create" class="tab-content active">
+                <!-- 2 ховер фон для "Ваш нік для друга:" та коду -->
                 <div class="info-hover-card-2">
                     <p style="margin-bottom: 0; color: #b0bec5; font-size: 13px;">Ваш нік для друга:</p>
                     <h1 id="room-code-display" style="color: #ffffff; font-size: 24px; letter-spacing: 2px; margin: 4px 0; word-break: break-all;">----</h1>
                 </div>
-
-                <div class="deck-size-selector">
-                    <button id="deck-small" class="active-deck-size" onclick="selectDeckSize('small')">Мала (36)</button>
-                    <button id="deck-large" onclick="selectDeckSize('large')">Велика (54)</button>
-                </div>
-
+                
+                <!-- 3 ховер фон для "Очікування підключення..." -->
                 <div class="info-hover-card-3">
                     <p id="wait-status" style="font-size: 13px; margin-bottom: 0; color: #e0e0e0;">Очікування підключення...</p>
                 </div>
@@ -903,7 +773,7 @@
         <div class="modal-card">
             <h2>Профіль гравця</h2>
             <p>Змініть аватарку або нікнейм</p>
-
+            
             <div class="avatar-container" onclick="document.getElementById('avatar-file-input').click()">
                 <img id="profile-avatar-preview" src="ava.png" alt="Аватарка" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'80\' height=\'80\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%23888\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'><path d=\'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2\'></path><circle cx=\'12\' cy=\'7\' r=\'4\'></circle></svg>';">
                 <div class="avatar-overlay">Змінити</div>
@@ -922,7 +792,7 @@
     <div id="rules-modal" class="modal-overlay hidden">
         <div class="modal-card" style="text-align: left;">
             <h2 style="text-align: center; margin-bottom: 12px;">Правила гри</h2>
-
+            
             <div class="rules-scroll-container">
                 <div style="font-size: 13px; color: #ccc; display: flex; flex-direction: column; gap: 10px; line-height: 1.4;">
                     <p><strong>Мобільна версія:</strong></p>
@@ -936,15 +806,7 @@
                         <li><strong>«Бито» (зліва):</strong> Тисніть, коли успішно відбилися.</li>
                         <li><strong>«Взяти» (на столі):</strong> Тисніть, якщо забираєте карти.</li>
                     </ul>
-                    <p><strong>Правила гри:</strong></p>
-                    <ul style="padding-left: 16px; display: flex; flex-direction: column; gap: 4px;">
-                        <li>Мета — позбутися всіх карт.</li>
-                        <li>Карту можна побити картою тієї ж масті вищого номіналу або козирем.</li>
-                        <li>Підкидати можна лише карти такого ж номіналу, як на столі.</li>
-                        <li>Не можна підкидати більше карт, ніж є у захисника.</li>
-                        <li><strong>Джокер:</strong> У великій колоді джокер — найсильніша карта. Він б'є будь-яку карту, але сам не може бути побитий.</li>
-                    </ul>
-                    <p style="text-align: right; font-size: 11px; color: #888; margin-top: 8px;">solix © v1.17 mob</p>
+                    <p style="text-align: right; font-size: 11px; color: #888; margin-top: 8px;">solix © v1.16 mob</p>
                 </div>
             </div>
 
@@ -985,7 +847,7 @@
 
                 <div class="table-area" id="table-area" onclick="handleTakeButton()"></div>
 
-                <div class="deck-area" id="deck-area" onclick="showTrumpTemporarily()">
+                <div class="deck-area">
                     <div class="deck-card-trump" id="trump-card-view"></div>
                     <div class="deck-card-back" id="deck-top-view"></div>
                     <div class="deck-counter" id="deck-count">36</div>
@@ -1011,7 +873,7 @@
     </div>
 
     <div id="game-over-modal" class="modal-overlay hidden">
-        <div class="modal-card" id="game-over-card">
+        <div class="modal-card">
             <h2 id="modal-title">Перемога!</h2>
             <p id="modal-desc">Ви успішно перемогли.</p>
             <button onclick="returnToMenu()">Головне меню</button>
@@ -1038,15 +900,9 @@
         window.addEventListener('DOMContentLoaded', checkDeviceType);
         window.addEventListener('resize', checkDeviceType);
 
-        // ---------- Глобальні змінні ----------
-        const SUITS_SMALL = ['♠', '♣', '♦', '♥'];
-        const VALUES_SMALL = ['6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
-
-        const SUITS_LARGE = ['♠', '♣', '♦', '♥'];
-        const VALUES_LARGE = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A', 'JOKER'];
-
-        let currentDeckSize = 'small';
-        let deckSizeSelected = 'small';
+        const suits = ['♠', '♣', '♦', '♥'];
+        const values = ['6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
+        const rankValue = {'6':6, '7':7, '8':8, '9':9, '10':10, 'J':11, 'Q':12, 'K':13, 'A':14};
 
         let myNickname = localStorage.getItem('foolcard_nickname') || '';
         let myAvatar = localStorage.getItem('foolcard_avatar') || 'ava.png';
@@ -1064,15 +920,12 @@
         let discardPileCount = 0;
         let trumpSuit = '';
         let trumpCard = null;
-
-        let attacker = 'host';
-        let defender = 'guest';
+        
+        let attacker = 'host'; 
+        let defender = 'guest'; 
 
         let rulesOpenedFromPause = false;
-        let gameEnded = false;
-        let trumpRevealTimeout = null;
 
-        // ---------- Ініціалізація ----------
         window.onload = () => {
             const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
             const isWideScreen = window.innerWidth > 1024;
@@ -1084,38 +937,6 @@
                 document.getElementById('main-menu').classList.remove('hidden');
             }
         };
-
-        // ---------- Функції вибору розміру колоди ----------
-        function selectDeckSize(size) {
-            deckSizeSelected = size;
-            document.querySelectorAll('.deck-size-selector button').forEach(btn => {
-                btn.classList.remove('active-deck-size');
-            });
-            document.getElementById(size === 'small' ? 'deck-small' : 'deck-large').classList.add('active-deck-size');
-            showToast(`Обрано ${size === 'small' ? 'малу' : 'велику'} колоду`);
-        }
-
-        function showTrumpTemporarily() {
-            if (gameEnded) return;
-            if (!trumpSuit || !trumpCard) return;
-
-            const trumpView = document.getElementById('trump-card-view');
-            if (!trumpView || trumpView.style.display === 'none') return;
-
-            if (trumpRevealTimeout) {
-                clearTimeout(trumpRevealTimeout);
-                trumpRevealTimeout = null;
-                trumpView.classList.remove('reveal');
-                return;
-            }
-
-            trumpView.classList.add('reveal');
-
-            trumpRevealTimeout = setTimeout(() => {
-                trumpView.classList.remove('reveal');
-                trumpRevealTimeout = null;
-            }, 3000);
-        }
 
         function openPauseModalFromButton() {
             const rulesModal = document.getElementById('rules-modal');
@@ -1196,7 +1017,7 @@
             document.getElementById('pause-modal').classList.add('hidden');
             document.getElementById('game-screen').classList.add('hidden');
             document.getElementById('play-menu').classList.remove('hidden');
-
+            
             switchTab('create');
         }
 
@@ -1323,8 +1144,7 @@
                 conn.send({
                     type: 'PROFILE',
                     nickname: myNickname,
-                    avatar: myAvatar,
-                    deckSize: deckSizeSelected
+                    avatar: myAvatar
                 });
 
                 if (!isHost) {
@@ -1336,16 +1156,12 @@
                 if (data.type === 'PROFILE') {
                     opponentNickname = data.nickname;
                     opponentAvatar = data.avatar;
-                    if (data.deckSize) {
-                        currentDeckSize = data.deckSize;
-                        deckSizeSelected = data.deckSize;
-                    }
                     updateUI();
                 } else if (data.type === 'STATE') {
                     syncState(data.state);
                     updateUI();
                 } else if (data.type === 'GAME_OVER') {
-                    showGameOver(data.title, data.desc, data.isDraw || false);
+                    showGameOver(data.title, data.desc);
                 }
             });
 
@@ -1363,12 +1179,6 @@
             opponentNickname = 'Суперник';
             opponentAvatar = 'ava.png';
             rulesOpenedFromPause = false;
-            gameEnded = false;
-
-            if (trumpRevealTimeout) {
-                clearTimeout(trumpRevealTimeout);
-                trumpRevealTimeout = null;
-            }
 
             document.getElementById('play-menu').classList.add('hidden');
             document.getElementById('game-screen').classList.add('hidden');
@@ -1385,150 +1195,80 @@
             document.getElementById('pause-modal').classList.add('hidden');
             document.getElementById('rules-modal').classList.add('hidden');
             document.getElementById('game-screen').classList.remove('hidden');
-            gameEnded = false;
-
+            
             if (conn && conn.open) {
                 conn.send({
                     type: 'PROFILE',
                     nickname: myNickname,
-                    avatar: myAvatar,
-                    deckSize: deckSizeSelected
+                    avatar: myAvatar
                 });
             }
         }
 
-        // ---------- Логіка створення колоди ----------
         function createDeck() {
             deck = [];
-            let suits, values;
-
-            if (currentDeckSize === 'small') {
-                suits = SUITS_SMALL;
-                values = VALUES_SMALL;
-            } else {
-                suits = SUITS_LARGE;
-                values = VALUES_LARGE;
-            }
-
-            const rankMap = {};
-            values.forEach((v, i) => {
-                rankMap[v] = i + 2;
-            });
-            if (currentDeckSize === 'large') {
-                rankMap['JOKER'] = 99;
-            }
-
             for (let suit of suits) {
                 for (let value of values) {
-                    if (value === 'JOKER') {
-                        deck.push({
-                            suit: 'JOKER',
-                            value: 'JOKER',
-                            rank: 99,
-                            color: 'red',
-                            isJoker: true
-                        });
-                        continue;
-                    }
                     deck.push({
                         suit,
                         value,
-                        rank: rankMap[value],
-                        color: (suit === '♦' || suit === '♥') ? 'red' : 'black',
-                        isJoker: false
+                        rank: rankValue[value],
+                        color: (suit === '♦' || suit === '♥') ? 'red' : 'black'
                     });
                 }
             }
             deck.sort(() => Math.random() - 0.5);
         }
 
-        function getMinTrump(hand) {
-            let trumps = hand.filter(c => c.suit === trumpSuit && !c.isJoker);
-            if (trumps.length === 0) return null;
-            return Math.min(...trumps.map(c => c.rank));
-        }
-
-        function determineFirstAttacker() {
-            if (!trumpSuit) return 'host';
-
-            let hostMin = getMinTrump(hostHand);
-            let guestMin = getMinTrump(guestHand);
-
-            if (hostMin === null && guestMin === null) {
-                return 'host';
-            }
-
-            if (guestMin === null) return 'host';
-            if (hostMin === null) return 'guest';
-
-            return hostMin <= guestMin ? 'host' : 'guest';
-        }
-
         function startHostGame() {
-            currentDeckSize = deckSizeSelected;
             createDeck();
-
-            const cardsToDeal = 6;
-
             discardPileCount = 0;
-            let trumpCandidate = deck[0];
-            if (trumpCandidate.isJoker) {
-                trumpSuit = '♠';
-                trumpCard = { suit: '♠', value: 'JOKER', rank: 99, color: 'red', isJoker: true };
-                deck.push(deck.shift());
-                trumpCandidate = deck[0];
-                if (trumpCandidate.isJoker) {
-                    trumpSuit = '♠';
-                    trumpCard = { suit: '♠', value: 'JOKER', rank: 99, color: 'red', isJoker: true };
-                } else {
-                    trumpSuit = trumpCandidate.suit;
-                    trumpCard = trumpCandidate;
-                }
-            } else {
-                trumpSuit = trumpCandidate.suit;
-                trumpCard = trumpCandidate;
-            }
-
+            trumpCard = deck[0];
+            trumpSuit = trumpCard.suit;
+            
             hostHand = [];
             guestHand = [];
             table = [];
 
-            for (let i = 0; i < cardsToDeal; i++) {
-                if (deck.length > 0) hostHand.push(deck.pop());
-                if (deck.length > 0) guestHand.push(deck.pop());
+            for (let i = 0; i < 6; i++) {
+                hostHand.push(deck.pop());
+                guestHand.push(deck.pop());
             }
 
-            attacker = determineFirstAttacker();
-            defender = attacker === 'host' ? 'guest' : 'host';
+            let hostMin = getMinTrump(hostHand);
+            let guestMin = getMinTrump(guestHand);
+
+            if (guestMin !== null && (hostMin === null || guestMin < hostMin)) {
+                attacker = 'guest';
+                defender = 'host';
+            } else {
+                attacker = 'host';
+                defender = 'guest';
+            }
 
             startGameScreen();
             checkActionState();
         }
 
-        function getMyHand() { return isHost ? hostHand : guestHand; }
+        function getMinTrump(hand) {
+            let trumps = hand.filter(c => c.suit === trumpSuit);
+            if (trumps.length === 0) return null;
+            return Math.min(...trumps.map(c => c.rank));
+        }
 
+        function getMyHand() { return isHost ? hostHand : guestHand; }
         function getOpponentHand() { return isHost ? guestHand : hostHand; }
 
         function checkActionState() {
-            if (gameEnded) return;
-
             if (isHost) {
-                checkWinnerAfterAction();
+                checkWinner();
                 sendState();
                 updateUI();
             } else {
                 conn.send({
                     type: 'STATE',
                     state: {
-                        deck,
-                        hostHand,
-                        guestHand,
-                        table,
-                        discardPileCount,
-                        trumpSuit,
-                        trumpCard,
-                        attacker,
-                        defender,
+                        deck, hostHand, guestHand, table, discardPileCount, trumpSuit, trumpCard, attacker, defender,
                         opponentNickname: myNickname,
                         opponentAvatar: myAvatar
                     }
@@ -1571,33 +1311,17 @@
             if (state.opponentAvatar) opponentAvatar = state.opponentAvatar;
         }
 
-        // Функція для відображення джокера - однакова для всіх місць
-        function renderJoker() {
+        function renderCard(card) {
             return `
-                <div class="card joker-card" onclick="onCardClick('JOKER', 'JOKER')">
-                    <div class="joker-text joker-top-left">J<br>O<br>K<br>E<br>R</div>
-                    <div style="flex:1;"></div>
-                    <div class="joker-text joker-bottom-right">J<br>O<br>K<br>E<br>R</div>
+                <div class="card ${card.color}" onclick="onCardClick('${card.value}', '${card.suit}')">
+                    <span>${card.value}</span>
+                    <span style="font-size: 20px; text-align: center;">${card.suit}</span>
+                    <span style="align-self: flex-end;">${card.value}</span>
                 </div>
             `;
         }
 
-        function renderCard(card) {
-            if (card.isJoker) {
-                return renderJoker();
-            }
-            return `
-                    <div class="card ${card.color}" onclick="onCardClick('${card.value}', '${card.suit}')">
-                        <span>${card.value}</span>
-                        <span style="font-size: 20px; text-align: center;">${card.suit}</span>
-                        <span style="align-self: flex-end;">${card.value}</span>
-                    </div>
-                `;
-        }
-
         function updateUI() {
-            if (gameEnded) return;
-
             const deckCountEl = document.getElementById('deck-count');
             if (deck.length === 1) {
                 deckCountEl.innerText = "";
@@ -1624,47 +1348,30 @@
                 if (table.length === 0) {
                     statusText = "Ваш хід: атакуйте.";
                 } else {
-                    const allDefended = table.every(p => p.defense !== null);
-                    if (allDefended) {
-                        statusText = "Натисніть «Бито» або підкиньте.";
-                    } else {
-                        statusText = "Підкиньте карту.";
-                    }
+                    statusText = "Підкиньте або «Бито».";
                 }
             } else {
                 if (table.length === 0) {
                     statusText = "Суперник ходить...";
+                } else if (table.some(p => p.defense === null)) {
+                    statusText = "Захист! Бийте або «Взяти».";
                 } else {
-                    const hasUnbeaten = table.some(p => p.defense === null);
-                    if (hasUnbeaten) {
-                        statusText = "Захист! Бийте або «Взяти».";
-                    } else {
-                        statusText = "Очікування...";
-                    }
+                    statusText = "Очікування...";
                 }
             }
             document.getElementById('game-status').innerText = statusText;
 
             const trumpView = document.getElementById('trump-card-view');
             const topView = document.getElementById('deck-top-view');
-
+            
             if (trumpCard && deck.length > 0) {
                 trumpView.style.display = 'flex';
-                if (trumpCard.isJoker) {
-                    trumpView.className = `card deck-card-trump joker-card`;
-                    trumpView.innerHTML = `
-                            <div class="joker-text joker-top-left">J<br>O<br>K<br>E<br>R</div>
-                            <div style="flex:1;"></div>
-                            <div class="joker-text joker-bottom-right">J<br>O<br>K<br>E<br>R</div>
-                        `;
-                } else {
-                    trumpView.className = `card deck-card-trump ${trumpCard.color}`;
-                    trumpView.innerHTML = `
-                            <span>${trumpCard.value}</span>
-                            <span style="font-size: 20px; text-align: center;">${trumpCard.suit}</span>
-                            <span style="align-self: flex-end;">${trumpCard.value}</span>
-                        `;
-                }
+                trumpView.className = `card deck-card-trump ${trumpCard.color}`;
+                trumpView.innerHTML = `
+                    <span>${trumpCard.value}</span>
+                    <span style="font-size: 20px; text-align: center;">${trumpCard.suit}</span>
+                    <span style="align-self: flex-end;">${trumpCard.value}</span>
+                `;
                 topView.style.display = 'block';
             } else {
                 trumpView.style.display = 'none';
@@ -1685,55 +1392,21 @@
 
             let tableHTML = '';
             table.forEach(pair => {
-                const attackCard = pair.attack;
-                const defenseCard = pair.defense;
-
-                let attackHTML = '';
-                if (attackCard.isJoker) {
-                    attackHTML = `
-                            <div class="card joker-card">
-                                <div class="joker-text joker-top-left">J<br>O<br>K<br>E<br>R</div>
-                                <div style="flex:1;"></div>
-                                <div class="joker-text joker-bottom-right">J<br>O<br>K<br>E<br>R</div>
-                            </div>
-                        `;
-                } else {
-                    attackHTML = `
-                            <div class="card ${attackCard.color}">
-                                <span>${attackCard.value}</span>
-                                <span style="font-size: 20px; text-align: center;">${attackCard.suit}</span>
-                                <span style="align-self: flex-end;">${attackCard.value}</span>
-                            </div>
-                        `;
-                }
-
-                let defenseHTML = '';
-                if (defenseCard) {
-                    if (defenseCard.isJoker) {
-                        defenseHTML = `
-                                <div class="card joker-card">
-                                    <div class="joker-text joker-top-left">J<br>O<br>K<br>E<br>R</div>
-                                    <div style="flex:1;"></div>
-                                    <div class="joker-text joker-bottom-right">J<br>O<br>K<br>E<br>R</div>
-                                </div>
-                            `;
-                    } else {
-                        defenseHTML = `
-                                <div class="card ${defenseCard.color}">
-                                    <span>${defenseCard.value}</span>
-                                    <span style="font-size: 20px; text-align: center;">${defenseCard.suit}</span>
-                                    <span style="align-self: flex-end;">${defenseCard.value}</span>
-                                </div>
-                            `;
-                    }
-                }
-
                 tableHTML += `
-                        <div class="pair">
-                            ${attackHTML}
-                            ${defenseHTML}
+                    <div class="pair">
+                        <div class="card ${pair.attack.color}">
+                            <span>${pair.attack.value}</span>
+                            <span style="font-size: 20px; text-align: center;">${pair.attack.suit}</span>
+                            <span style="align-self: flex-end;">${pair.attack.value}</span>
                         </div>
-                    `;
+                        ${pair.defense ? `
+                        <div class="card ${pair.defense.color}">
+                            <span>${pair.defense.value}</span>
+                            <span style="font-size: 20px; text-align: center;">${pair.defense.suit}</span>
+                            <span style="align-self: flex-end;">${pair.defense.value}</span>
+                        </div>` : ''}
+                    </div>
+                `;
             });
             document.getElementById('table-area').innerHTML = tableHTML;
 
@@ -1754,21 +1427,7 @@
             }
         }
 
-        function canThrowCard(card) {
-            if (table.length === 0) return true;
-
-            const allowedValues = new Set();
-            table.forEach(pair => {
-                allowedValues.add(pair.attack.value);
-                if (pair.defense) allowedValues.add(pair.defense.value);
-            });
-
-            return allowedValues.has(card.value);
-        }
-
         function onCardClick(value, suit) {
-            if (gameEnded) return;
-
             let myRole = isHost ? 'host' : 'guest';
             let myHand = getMyHand();
             const cardIndex = myHand.findIndex(c => c.value === value && c.suit === suit);
@@ -1777,21 +1436,30 @@
 
             if (myRole === attacker) {
                 if (table.length > 0) {
-                    if (!canThrowCard(selectedCard)) {
+                    const allowedValues = new Set();
+                    table.forEach(p => {
+                        allowedValues.add(p.attack.value);
+                        if (p.defense) allowedValues.add(p.defense.value);
+                    });
+                    if (!allowedValues.has(selectedCard.value)) {
                         showToast("Можна підкидати карти лише такого ж номіналу!");
                         return;
                     }
-
-                    const opponentHand = getOpponentHand();
-                    if (table.length >= 6 || table.length >= opponentHand.length) {
+                    if (table.length >= 6 || table.length >= getOpponentHand().length) {
                         showToast("Ліміт карт на столі вичерпано!");
+                        return;
+                    }
+                } else {
+                    const currentThrowValues = table.map(p => p.attack.value);
+                    if (currentThrowValues.length > 0 && !currentThrowValues.includes(selectedCard.value)) {
+                        showToast("Можна кидати лише карти однакового номіналу!");
                         return;
                     }
                 }
 
                 myHand.splice(cardIndex, 1);
                 table.push({ attack: selectedCard, defense: null });
-
+                
                 updateUI();
                 checkActionState();
 
@@ -1800,17 +1468,8 @@
                 if (!unbeatPair) return;
 
                 const attackCard = unbeatPair.attack;
-
-                let beats = false;
-
-                if (selectedCard.isJoker) {
-                    beats = true;
-                } else if (attackCard.isJoker) {
-                    beats = false;
-                } else {
-                    beats = (selectedCard.suit === attackCard.suit && selectedCard.rank > attackCard.rank) ||
-                        (selectedCard.suit === trumpSuit && attackCard.suit !== trumpSuit);
-                }
+                const beats = (selectedCard.suit === attackCard.suit && selectedCard.rank > attackCard.rank) ||
+                              (selectedCard.suit === trumpSuit && attackCard.suit !== trumpSuit);
 
                 if (!beats) {
                     showToast("Ця карта не б'є атакуючу!");
@@ -1819,21 +1478,19 @@
 
                 myHand.splice(cardIndex, 1);
                 unbeatPair.defense = selectedCard;
-
+                
                 updateUI();
                 checkActionState();
             }
         }
 
         function handleMainButton() {
-            if (gameEnded) return;
-
             let myRole = isHost ? 'host' : 'guest';
             if (myRole === attacker && table.length > 0 && table.every(p => p.defense !== null)) {
                 discardPileCount += table.length * 2;
                 table = [];
                 refillHands();
-
+                
                 let temp = attacker;
                 attacker = defender;
                 defender = temp;
@@ -1844,8 +1501,6 @@
         }
 
         function handleTakeButton() {
-            if (gameEnded) return;
-
             let myRole = isHost ? 'host' : 'guest';
             let myHand = getMyHand();
             if (myRole === defender && table.length > 0 && table.some(p => p.defense === null)) {
@@ -1862,8 +1517,6 @@
         }
 
         function refillHands() {
-            if (gameEnded) return;
-
             if (attacker === 'host') {
                 while (hostHand.length < 6 && deck.length > 0) hostHand.push(deck.pop());
                 while (guestHand.length < 6 && deck.length > 0) guestHand.push(deck.pop());
@@ -1871,88 +1524,30 @@
                 while (guestHand.length < 6 && deck.length > 0) guestHand.push(deck.pop());
                 while (hostHand.length < 6 && deck.length > 0) hostHand.push(deck.pop());
             }
-            checkWinnerAfterAction();
+            checkWinner();
         }
 
-        function checkWinnerAfterAction() {
-            if (gameEnded) return;
-
-            if (hostHand.length === 0 && guestHand.length === 0) {
-                triggerGameOver("Бито!", "У всіх картки закінчилися.", true);
-                return true;
-            }
-
-            if (hostHand.length === 0) {
-                triggerGameOver(
-                    isHost ? "Перемога!" : "Поразка!",
-                    isHost ? "Ви виграли партію!" : "Суперник виявився сильнішим.",
-                    false
-                );
-                return true;
-            }
-
-            if (guestHand.length === 0) {
-                triggerGameOver(
-                    isHost ? "Поразка!" : "Перемога!",
-                    isHost ? "Суперник виявився сильнішим." : "Ви виграли партію!",
-                    false
-                );
-                return true;
-            }
-
-            return false;
-        }
-
-        function triggerGameOver(title, desc, isDraw = false) {
-            if (gameEnded) return;
-            gameEnded = true;
-
-            let finalTitle = title;
-            let finalDesc = desc;
-
-            if (isDraw) {
-                finalTitle = "Бито!";
-                finalDesc = "У всіх картки закінчилися.";
-            }
-
-            showGameOver(finalTitle, finalDesc, isDraw);
-
-            if (conn) {
-                let opponentTitle = finalTitle;
-                let opponentDesc = finalDesc;
-
-                if (!isDraw) {
-                    if (finalTitle === "Перемога!") {
-                        opponentTitle = "Поразка!";
-                        opponentDesc = "Суперник виявився сильнішим.";
-                    } else if (finalTitle === "Поразка!") {
-                        opponentTitle = "Перемога!";
-                        opponentDesc = "Ви виграли партію!";
-                    }
+        function checkWinner() {
+            if (deck.length === 0) {
+                if (hostHand.length === 0 && guestHand.length > 0) {
+                    triggerGameOver("Перемога!", "Вітаємо! Ви виграли партію.");
+                } else if (guestHand.length === 0 && hostHand.length > 0) {
+                    triggerGameOver("Поразка", "Суперник виявився спритнішим.");
                 }
-
-                conn.send({
-                    type: 'GAME_OVER',
-                    title: opponentTitle,
-                    desc: opponentDesc,
-                    isDraw: isDraw
-                });
             }
         }
 
-        function showGameOver(title, desc, isDraw = false) {
-            const modal = document.getElementById('game-over-modal');
-            const card = document.getElementById('game-over-card');
-
-            if (isDraw || title === "Бито!") {
-                card.className = 'modal-card draw';
-            } else {
-                card.className = 'modal-card';
+        function triggerGameOver(title, desc) {
+            showGameOver(title, desc);
+            if (conn) {
+                conn.send({ type: 'GAME_OVER', title: title === "Перемога!" ? "Поразка" : "Перемога!", desc: "Партія завершена." });
             }
+        }
 
+        function showGameOver(title, desc) {
             document.getElementById('modal-title').innerText = title;
             document.getElementById('modal-desc').innerText = desc;
-            modal.classList.remove('hidden');
+            document.getElementById('game-over-modal').classList.remove('hidden');
         }
     </script>
 </body>
