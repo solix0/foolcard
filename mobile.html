@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="icon" type="image/png" href="logo.png">
     <title>FOOLCARD - Mobile</title>
-    <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+    <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js">
+    </script>
     <style>
         * {
             box-sizing: border-box;
@@ -49,13 +50,17 @@
             box-sizing: border-box;
         }
 
-        #main-menu, #auth-screen, #play-menu {
+        #main-menu,
+        #auth-screen,
+        #play-menu {
             background: radial-gradient(circle at center, #1b4d3e 0%, #0d231b 60%, #071410 100%);
             position: relative;
             overflow: hidden;
         }
 
-        #main-menu::before, #auth-screen::before, #play-menu::before {
+        #main-menu::before,
+        #auth-screen::before,
+        #play-menu::before {
             content: "♠ ♣ ♦ ♥ ♠ ♣ ♦ ♥";
             position: absolute;
             top: -50px;
@@ -110,7 +115,7 @@
             margin-bottom: 10px;
             color: #ffffff;
             letter-spacing: 3px;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
         }
 
         .menu-container p {
@@ -136,7 +141,7 @@
             border-radius: 10px;
             cursor: pointer;
             font-weight: bold;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
             transition: transform 0.15s ease, background 0.2s ease, box-shadow 0.2s ease;
             width: 100%;
             -webkit-tap-highlight-color: transparent;
@@ -160,7 +165,7 @@
             font-size: 18px;
             text-align: center;
             border-radius: 10px;
-            border: 1px solid rgba(255,255,255,0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             margin-bottom: 14px;
             background: rgba(0, 0, 0, 0.4);
             color: #fff;
@@ -177,7 +182,7 @@
             background: rgba(12, 12, 12, 0.6);
             border-radius: 10px;
             margin-bottom: 12px;
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             overflow: hidden;
             padding: 3px;
         }
@@ -208,7 +213,7 @@
         .tab-btn.active {
             background: #ffffff;
             color: #121212;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
 
         .tab-content {
@@ -239,7 +244,7 @@
             background: rgba(255, 255, 255, 0.08);
             border-color: rgba(255, 255, 255, 0.2);
             transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
         }
 
         header {
@@ -251,8 +256,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border: 1px solid rgba(255,255,255,0.05);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(4px);
             position: relative;
             z-index: 1;
@@ -269,7 +274,7 @@
             height: 36px;
             border-radius: 50%;
             overflow: hidden;
-            border: 2px solid rgba(255,255,255,0.2);
+            border: 2px solid rgba(255, 255, 255, 0.2);
             flex-shrink: 0;
             background: #000;
         }
@@ -307,12 +312,12 @@
         .menu-trigger-btn {
             background: rgba(255, 255, 255, 0.1);
             color: #fff;
-            border: 1px solid rgba(255,255,255,0.15);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             padding: 6px 10px;
             font-size: 12px;
             border-radius: 8px;
             width: auto;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
         }
 
         .board-container {
@@ -343,17 +348,17 @@
             justify-content: flex-start;
             padding: 4px 6px;
             background: rgba(0, 0, 0, 0.25);
-            border: 1px solid rgba(255,255,255,0.04);
+            border: 1px solid rgba(255, 255, 255, 0.04);
             border-radius: 12px;
             width: 100%;
-            box-shadow: inset 0 4px 10px rgba(0,0,0,0.4);
+            box-shadow: inset 0 4px 10px rgba(0, 0, 0, 0.4);
             backdrop-filter: blur(4px);
             overflow-x: auto;
             overflow-y: hidden;
             gap: 6px;
             -webkit-overflow-scrolling: touch;
         }
-        
+
         .hand::-webkit-scrollbar {
             display: none;
         }
@@ -399,7 +404,7 @@
         .discard-area.active-discard .discard-card-view {
             border-color: #ffffff;
             background: rgba(255, 255, 255, 0.15);
-            box-shadow: 0 0 10px rgba(255,255,255,0.6);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
         }
 
         .discard-card-view {
@@ -409,7 +414,7 @@
             background: rgba(255, 255, 255, 0.08);
             border: 2px dashed rgba(255, 255, 255, 0.2);
             border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
             transition: all 0.2s ease;
         }
 
@@ -419,7 +424,7 @@
             font-weight: bold;
             color: #ffffff;
             z-index: 6;
-            text-shadow: 0 2px 6px rgba(0,0,0,0.9);
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.9);
             pointer-events: none;
         }
 
@@ -427,7 +432,7 @@
             position: absolute;
             bottom: -16px;
             font-size: 11px;
-            color: rgba(255,255,255,0.7);
+            color: rgba(255, 255, 255, 0.7);
             font-weight: 500;
             text-align: center;
             width: 100%;
@@ -443,9 +448,9 @@
             flex-grow: 1;
             padding: 4px;
             margin: 0 4px;
-            background: rgba(0,0,0,0.15);
+            background: rgba(0, 0, 0, 0.15);
             border-radius: 10px;
-            border: 1px dashed rgba(255,255,255,0.1);
+            border: 1px dashed rgba(255, 255, 255, 0.1);
             max-height: 100%;
             overflow-y: auto;
         }
@@ -454,7 +459,7 @@
             cursor: pointer;
             border-color: rgba(255, 255, 255, 0.6);
             background: rgba(255, 255, 255, 0.08);
-            box-shadow: 0 0 10px rgba(255,255,255,0.3);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
         }
 
         .deck-area {
@@ -481,7 +486,7 @@
             font-weight: bold;
             font-size: 13px;
             cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
             position: relative;
             border: 1px solid #b5b5b5;
             flex-shrink: 0;
@@ -505,7 +510,7 @@
             width: 38px;
             height: 55px;
             padding: 0;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
         }
 
         .deck-card-back {
@@ -515,7 +520,7 @@
             background: linear-gradient(135deg, #b71c1c 50%, #1a1a1a 50%);
             border: 1.5px solid #ddd;
             border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
             z-index: 2;
             right: 0;
         }
@@ -525,7 +530,7 @@
             width: 60px;
             height: 85px;
             border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
             transform: rotate(90deg) translateY(-12px);
             transform-origin: center;
             right: 25px;
@@ -550,7 +555,7 @@
             font-weight: bold;
             color: #ffffff;
             z-index: 6;
-            text-shadow: 0 2px 6px rgba(0,0,0,0.9);
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.9);
             pointer-events: none;
         }
 
@@ -597,8 +602,8 @@
             padding: 25px 20px;
             border-radius: 14px;
             text-align: center;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.7);
-            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             max-width: 380px;
             width: 100%;
             max-height: 90vh;
@@ -654,9 +659,9 @@
             margin: 0 auto 12px auto;
             border-radius: 50%;
             overflow: hidden;
-            border: 2px solid rgba(255,255,255,0.2);
+            border: 2px solid rgba(255, 255, 255, 0.2);
             cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
         }
 
         .avatar-container img {
@@ -671,7 +676,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0, 0, 0, 0.5);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -701,18 +706,126 @@
             padding: 12px 20px;
             border-radius: 8px;
             font-size: 14px;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
             border-left: 4px solid #ffffff;
             animation: fadeInOut 3s forwards;
             pointer-events: auto;
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         @keyframes fadeInOut {
-            0% { opacity: 0; transform: translateY(-15px); }
-            15% { opacity: 1; transform: translateY(0); }
-            85% { opacity: 1; transform: translateY(0); }
-            100% { opacity: 0; transform: translateY(-15px); }
+            0% {
+                opacity: 0;
+                transform: translateY(-15px);
+            }
+            15% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            85% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-15px);
+            }
+        }
+
+        .deck-size-selector {
+            display: flex;
+            gap: 0px;
+            justify-content: center;
+            background: rgba(12, 12, 12, 0.6);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            padding: 3px;
+        }
+
+        .deck-size-selector button {
+            flex: 1;
+            background: transparent;
+            color: #9e9e9e;
+            border: none;
+            padding: 10px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: none;
+            border-radius: 0px;
+            transition: background 0.2s, color 0.2s;
+            width: auto;
+        }
+
+        .deck-size-selector button:first-child {
+            border-radius: 8px 0px 0px 8px;
+        }
+
+        .deck-size-selector button:last-child {
+            border-radius: 0px 8px 8px 0px;
+        }
+
+        .deck-size-selector button:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: none;
+            color: #fff;
+        }
+
+        .deck-size-selector button.active-deck-size {
+            background: #ffffff;
+            color: #121212;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Стилі для джокера - як на ПК */
+        .card.joker-card {
+            background: #f0f0f0;
+            color: #c62828;
+            border: 1px solid #b5b5b5;
+            padding: 6px 8px;
+        }
+
+        .card.joker-card .joker-text {
+            display: flex;
+            flex-direction: column;
+            font-size: 10px;
+            font-weight: 900;
+            line-height: 1.05;
+            letter-spacing: 0.2px;
+        }
+
+        .card.joker-card .joker-top-left {
+            align-items: flex-start;
+            color: #c62828;
+            padding-top: 2px;
+            padding-left: 2px;
+        }
+
+        .card.joker-card .joker-bottom-right {
+            align-items: flex-end;
+            color: #111111;
+            padding-bottom: 2px;
+            padding-right: 2px;
+        }
+
+        /* Адаптація для мобільних екранів */
+        @media (max-width: 480px) {
+            .card.joker-card .joker-text {
+                font-size: 8px;
+                line-height: 1.0;
+            }
+            .card.joker-card {
+                padding: 4px 5px;
+            }
+            .card.joker-card .joker-top-left {
+                padding-top: 1px;
+                padding-left: 1px;
+            }
+            .card.joker-card .joker-bottom-right {
+                padding-bottom: 4px;
+                padding-right: 1px;
+            }
         }
     </style>
 </head>
@@ -765,7 +878,12 @@
                     <p style="margin-bottom: 0; color: #b0bec5; font-size: 13px;">Ваш нік для друга:</p>
                     <h1 id="room-code-display" style="color: #ffffff; font-size: 24px; letter-spacing: 2px; margin: 4px 0; word-break: break-all;">----</h1>
                 </div>
-                
+
+                <div class="deck-size-selector">
+                    <button id="deck-small" class="active-deck-size" onclick="selectDeckSize('small')">Мала (36)</button>
+                    <button id="deck-large" onclick="selectDeckSize('large')">Велика (54)</button>
+                </div>
+
                 <div class="info-hover-card-3">
                     <p id="wait-status" style="font-size: 13px; margin-bottom: 0; color: #e0e0e0;">Очікування підключення...</p>
                 </div>
@@ -785,7 +903,7 @@
         <div class="modal-card">
             <h2>Профіль гравця</h2>
             <p>Змініть аватарку або нікнейм</p>
-            
+
             <div class="avatar-container" onclick="document.getElementById('avatar-file-input').click()">
                 <img id="profile-avatar-preview" src="ava.png" alt="Аватарка" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'80\' height=\'80\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%23888\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'><path d=\'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2\'></path><circle cx=\'12\' cy=\'7\' r=\'4\'></circle></svg>';">
                 <div class="avatar-overlay">Змінити</div>
@@ -804,7 +922,7 @@
     <div id="rules-modal" class="modal-overlay hidden">
         <div class="modal-card" style="text-align: left;">
             <h2 style="text-align: center; margin-bottom: 12px;">Правила гри</h2>
-            
+
             <div class="rules-scroll-container">
                 <div style="font-size: 13px; color: #ccc; display: flex; flex-direction: column; gap: 10px; line-height: 1.4;">
                     <p><strong>Мобільна версія:</strong></p>
@@ -824,6 +942,7 @@
                         <li>Карту можна побити картою тієї ж масті вищого номіналу або козирем.</li>
                         <li>Підкидати можна лише карти такого ж номіналу, як на столі.</li>
                         <li>Не можна підкидати більше карт, ніж є у захисника.</li>
+                        <li><strong>Джокер:</strong> У великій колоді джокер — найсильніша карта. Він б'є будь-яку карту, але сам не може бути побитий.</li>
                     </ul>
                     <p style="text-align: right; font-size: 11px; color: #888; margin-top: 8px;">solix © v1.17 mob</p>
                 </div>
@@ -919,9 +1038,15 @@
         window.addEventListener('DOMContentLoaded', checkDeviceType);
         window.addEventListener('resize', checkDeviceType);
 
-        const suits = ['♠', '♣', '♦', '♥'];
-        const values = ['6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
-        const rankValue = {'6':6, '7':7, '8':8, '9':9, '10':10, 'J':11, 'Q':12, 'K':13, 'A':14};
+        // ---------- Глобальні змінні ----------
+        const SUITS_SMALL = ['♠', '♣', '♦', '♥'];
+        const VALUES_SMALL = ['6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
+
+        const SUITS_LARGE = ['♠', '♣', '♦', '♥'];
+        const VALUES_LARGE = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A', 'JOKER'];
+
+        let currentDeckSize = 'small';
+        let deckSizeSelected = 'small';
 
         let myNickname = localStorage.getItem('foolcard_nickname') || '';
         let myAvatar = localStorage.getItem('foolcard_avatar') || 'ava.png';
@@ -939,14 +1064,15 @@
         let discardPileCount = 0;
         let trumpSuit = '';
         let trumpCard = null;
-        
-        let attacker = 'host'; 
-        let defender = 'guest'; 
+
+        let attacker = 'host';
+        let defender = 'guest';
 
         let rulesOpenedFromPause = false;
         let gameEnded = false;
         let trumpRevealTimeout = null;
 
+        // ---------- Ініціалізація ----------
         window.onload = () => {
             const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
             const isWideScreen = window.innerWidth > 1024;
@@ -959,7 +1085,16 @@
             }
         };
 
-        // === ПОКАЗ КОЗИРЯ ПРИ НАТИСКАННІ НА КОЛОДУ ===
+        // ---------- Функції вибору розміру колоди ----------
+        function selectDeckSize(size) {
+            deckSizeSelected = size;
+            document.querySelectorAll('.deck-size-selector button').forEach(btn => {
+                btn.classList.remove('active-deck-size');
+            });
+            document.getElementById(size === 'small' ? 'deck-small' : 'deck-large').classList.add('active-deck-size');
+            showToast(`Обрано ${size === 'small' ? 'малу' : 'велику'} колоду`);
+        }
+
         function showTrumpTemporarily() {
             if (gameEnded) return;
             if (!trumpSuit || !trumpCard) return;
@@ -967,7 +1102,6 @@
             const trumpView = document.getElementById('trump-card-view');
             if (!trumpView || trumpView.style.display === 'none') return;
 
-            // Якщо вже показуємо, скидаємо таймер і повертаємо як було
             if (trumpRevealTimeout) {
                 clearTimeout(trumpRevealTimeout);
                 trumpRevealTimeout = null;
@@ -975,10 +1109,8 @@
                 return;
             }
 
-            // Показуємо карту з плавною анімацією
             trumpView.classList.add('reveal');
 
-            // Через 3 секунди плавно ховаємо
             trumpRevealTimeout = setTimeout(() => {
                 trumpView.classList.remove('reveal');
                 trumpRevealTimeout = null;
@@ -1064,7 +1196,7 @@
             document.getElementById('pause-modal').classList.add('hidden');
             document.getElementById('game-screen').classList.add('hidden');
             document.getElementById('play-menu').classList.remove('hidden');
-            
+
             switchTab('create');
         }
 
@@ -1191,7 +1323,8 @@
                 conn.send({
                     type: 'PROFILE',
                     nickname: myNickname,
-                    avatar: myAvatar
+                    avatar: myAvatar,
+                    deckSize: deckSizeSelected
                 });
 
                 if (!isHost) {
@@ -1203,6 +1336,10 @@
                 if (data.type === 'PROFILE') {
                     opponentNickname = data.nickname;
                     opponentAvatar = data.avatar;
+                    if (data.deckSize) {
+                        currentDeckSize = data.deckSize;
+                        deckSizeSelected = data.deckSize;
+                    }
                     updateUI();
                 } else if (data.type === 'STATE') {
                     syncState(data.state);
@@ -1249,25 +1386,56 @@
             document.getElementById('rules-modal').classList.add('hidden');
             document.getElementById('game-screen').classList.remove('hidden');
             gameEnded = false;
-            
+
             if (conn && conn.open) {
                 conn.send({
                     type: 'PROFILE',
                     nickname: myNickname,
-                    avatar: myAvatar
+                    avatar: myAvatar,
+                    deckSize: deckSizeSelected
                 });
             }
         }
 
+        // ---------- Логіка створення колоди ----------
         function createDeck() {
             deck = [];
+            let suits, values;
+
+            if (currentDeckSize === 'small') {
+                suits = SUITS_SMALL;
+                values = VALUES_SMALL;
+            } else {
+                suits = SUITS_LARGE;
+                values = VALUES_LARGE;
+            }
+
+            const rankMap = {};
+            values.forEach((v, i) => {
+                rankMap[v] = i + 2;
+            });
+            if (currentDeckSize === 'large') {
+                rankMap['JOKER'] = 99;
+            }
+
             for (let suit of suits) {
                 for (let value of values) {
+                    if (value === 'JOKER') {
+                        deck.push({
+                            suit: 'JOKER',
+                            value: 'JOKER',
+                            rank: 99,
+                            color: 'red',
+                            isJoker: true
+                        });
+                        continue;
+                    }
                     deck.push({
                         suit,
                         value,
-                        rank: rankValue[value],
-                        color: (suit === '♦' || suit === '♥') ? 'red' : 'black'
+                        rank: rankMap[value],
+                        color: (suit === '♦' || suit === '♥') ? 'red' : 'black',
+                        isJoker: false
                     });
                 }
             }
@@ -1275,40 +1443,59 @@
         }
 
         function getMinTrump(hand) {
-            let trumps = hand.filter(c => c.suit === trumpSuit);
+            let trumps = hand.filter(c => c.suit === trumpSuit && !c.isJoker);
             if (trumps.length === 0) return null;
             return Math.min(...trumps.map(c => c.rank));
         }
 
         function determineFirstAttacker() {
             if (!trumpSuit) return 'host';
-            
+
             let hostMin = getMinTrump(hostHand);
             let guestMin = getMinTrump(guestHand);
-            
+
             if (hostMin === null && guestMin === null) {
                 return 'host';
             }
-            
+
             if (guestMin === null) return 'host';
             if (hostMin === null) return 'guest';
-            
+
             return hostMin <= guestMin ? 'host' : 'guest';
         }
 
         function startHostGame() {
+            currentDeckSize = deckSizeSelected;
             createDeck();
+
+            const cardsToDeal = 6;
+
             discardPileCount = 0;
-            trumpCard = deck[0];
-            trumpSuit = trumpCard.suit;
-            
+            let trumpCandidate = deck[0];
+            if (trumpCandidate.isJoker) {
+                trumpSuit = '♠';
+                trumpCard = { suit: '♠', value: 'JOKER', rank: 99, color: 'red', isJoker: true };
+                deck.push(deck.shift());
+                trumpCandidate = deck[0];
+                if (trumpCandidate.isJoker) {
+                    trumpSuit = '♠';
+                    trumpCard = { suit: '♠', value: 'JOKER', rank: 99, color: 'red', isJoker: true };
+                } else {
+                    trumpSuit = trumpCandidate.suit;
+                    trumpCard = trumpCandidate;
+                }
+            } else {
+                trumpSuit = trumpCandidate.suit;
+                trumpCard = trumpCandidate;
+            }
+
             hostHand = [];
             guestHand = [];
             table = [];
 
-            for (let i = 0; i < 6; i++) {
-                hostHand.push(deck.pop());
-                guestHand.push(deck.pop());
+            for (let i = 0; i < cardsToDeal; i++) {
+                if (deck.length > 0) hostHand.push(deck.pop());
+                if (deck.length > 0) guestHand.push(deck.pop());
             }
 
             attacker = determineFirstAttacker();
@@ -1319,11 +1506,12 @@
         }
 
         function getMyHand() { return isHost ? hostHand : guestHand; }
+
         function getOpponentHand() { return isHost ? guestHand : hostHand; }
 
         function checkActionState() {
             if (gameEnded) return;
-            
+
             if (isHost) {
                 checkWinnerAfterAction();
                 sendState();
@@ -1332,7 +1520,15 @@
                 conn.send({
                     type: 'STATE',
                     state: {
-                        deck, hostHand, guestHand, table, discardPileCount, trumpSuit, trumpCard, attacker, defender,
+                        deck,
+                        hostHand,
+                        guestHand,
+                        table,
+                        discardPileCount,
+                        trumpSuit,
+                        trumpCard,
+                        attacker,
+                        defender,
                         opponentNickname: myNickname,
                         opponentAvatar: myAvatar
                     }
@@ -1375,19 +1571,33 @@
             if (state.opponentAvatar) opponentAvatar = state.opponentAvatar;
         }
 
-        function renderCard(card) {
+        // Функція для відображення джокера - однакова для всіх місць
+        function renderJoker() {
             return `
-                <div class="card ${card.color}" onclick="onCardClick('${card.value}', '${card.suit}')">
-                    <span>${card.value}</span>
-                    <span style="font-size: 20px; text-align: center;">${card.suit}</span>
-                    <span style="align-self: flex-end;">${card.value}</span>
+                <div class="card joker-card" onclick="onCardClick('JOKER', 'JOKER')">
+                    <div class="joker-text joker-top-left">J<br>O<br>K<br>E<br>R</div>
+                    <div style="flex:1;"></div>
+                    <div class="joker-text joker-bottom-right">J<br>O<br>K<br>E<br>R</div>
                 </div>
             `;
         }
 
+        function renderCard(card) {
+            if (card.isJoker) {
+                return renderJoker();
+            }
+            return `
+                    <div class="card ${card.color}" onclick="onCardClick('${card.value}', '${card.suit}')">
+                        <span>${card.value}</span>
+                        <span style="font-size: 20px; text-align: center;">${card.suit}</span>
+                        <span style="align-self: flex-end;">${card.value}</span>
+                    </div>
+                `;
+        }
+
         function updateUI() {
             if (gameEnded) return;
-            
+
             const deckCountEl = document.getElementById('deck-count');
             if (deck.length === 1) {
                 deckCountEl.innerText = "";
@@ -1437,15 +1647,24 @@
 
             const trumpView = document.getElementById('trump-card-view');
             const topView = document.getElementById('deck-top-view');
-            
+
             if (trumpCard && deck.length > 0) {
                 trumpView.style.display = 'flex';
-                trumpView.className = `card deck-card-trump ${trumpCard.color}`;
-                trumpView.innerHTML = `
-                    <span>${trumpCard.value}</span>
-                    <span style="font-size: 20px; text-align: center;">${trumpCard.suit}</span>
-                    <span style="align-self: flex-end;">${trumpCard.value}</span>
-                `;
+                if (trumpCard.isJoker) {
+                    trumpView.className = `card deck-card-trump joker-card`;
+                    trumpView.innerHTML = `
+                            <div class="joker-text joker-top-left">J<br>O<br>K<br>E<br>R</div>
+                            <div style="flex:1;"></div>
+                            <div class="joker-text joker-bottom-right">J<br>O<br>K<br>E<br>R</div>
+                        `;
+                } else {
+                    trumpView.className = `card deck-card-trump ${trumpCard.color}`;
+                    trumpView.innerHTML = `
+                            <span>${trumpCard.value}</span>
+                            <span style="font-size: 20px; text-align: center;">${trumpCard.suit}</span>
+                            <span style="align-self: flex-end;">${trumpCard.value}</span>
+                        `;
+                }
                 topView.style.display = 'block';
             } else {
                 trumpView.style.display = 'none';
@@ -1466,21 +1685,55 @@
 
             let tableHTML = '';
             table.forEach(pair => {
+                const attackCard = pair.attack;
+                const defenseCard = pair.defense;
+
+                let attackHTML = '';
+                if (attackCard.isJoker) {
+                    attackHTML = `
+                            <div class="card joker-card">
+                                <div class="joker-text joker-top-left">J<br>O<br>K<br>E<br>R</div>
+                                <div style="flex:1;"></div>
+                                <div class="joker-text joker-bottom-right">J<br>O<br>K<br>E<br>R</div>
+                            </div>
+                        `;
+                } else {
+                    attackHTML = `
+                            <div class="card ${attackCard.color}">
+                                <span>${attackCard.value}</span>
+                                <span style="font-size: 20px; text-align: center;">${attackCard.suit}</span>
+                                <span style="align-self: flex-end;">${attackCard.value}</span>
+                            </div>
+                        `;
+                }
+
+                let defenseHTML = '';
+                if (defenseCard) {
+                    if (defenseCard.isJoker) {
+                        defenseHTML = `
+                                <div class="card joker-card">
+                                    <div class="joker-text joker-top-left">J<br>O<br>K<br>E<br>R</div>
+                                    <div style="flex:1;"></div>
+                                    <div class="joker-text joker-bottom-right">J<br>O<br>K<br>E<br>R</div>
+                                </div>
+                            `;
+                    } else {
+                        defenseHTML = `
+                                <div class="card ${defenseCard.color}">
+                                    <span>${defenseCard.value}</span>
+                                    <span style="font-size: 20px; text-align: center;">${defenseCard.suit}</span>
+                                    <span style="align-self: flex-end;">${defenseCard.value}</span>
+                                </div>
+                            `;
+                    }
+                }
+
                 tableHTML += `
-                    <div class="pair">
-                        <div class="card ${pair.attack.color}">
-                            <span>${pair.attack.value}</span>
-                            <span style="font-size: 20px; text-align: center;">${pair.attack.suit}</span>
-                            <span style="align-self: flex-end;">${pair.attack.value}</span>
+                        <div class="pair">
+                            ${attackHTML}
+                            ${defenseHTML}
                         </div>
-                        ${pair.defense ? `
-                        <div class="card ${pair.defense.color}">
-                            <span>${pair.defense.value}</span>
-                            <span style="font-size: 20px; text-align: center;">${pair.defense.suit}</span>
-                            <span style="align-self: flex-end;">${pair.defense.value}</span>
-                        </div>` : ''}
-                    </div>
-                `;
+                    `;
             });
             document.getElementById('table-area').innerHTML = tableHTML;
 
@@ -1503,19 +1756,19 @@
 
         function canThrowCard(card) {
             if (table.length === 0) return true;
-            
+
             const allowedValues = new Set();
             table.forEach(pair => {
                 allowedValues.add(pair.attack.value);
                 if (pair.defense) allowedValues.add(pair.defense.value);
             });
-            
+
             return allowedValues.has(card.value);
         }
 
         function onCardClick(value, suit) {
             if (gameEnded) return;
-            
+
             let myRole = isHost ? 'host' : 'guest';
             let myHand = getMyHand();
             const cardIndex = myHand.findIndex(c => c.value === value && c.suit === suit);
@@ -1528,7 +1781,7 @@
                         showToast("Можна підкидати карти лише такого ж номіналу!");
                         return;
                     }
-                    
+
                     const opponentHand = getOpponentHand();
                     if (table.length >= 6 || table.length >= opponentHand.length) {
                         showToast("Ліміт карт на столі вичерпано!");
@@ -1538,7 +1791,7 @@
 
                 myHand.splice(cardIndex, 1);
                 table.push({ attack: selectedCard, defense: null });
-                
+
                 updateUI();
                 checkActionState();
 
@@ -1547,8 +1800,17 @@
                 if (!unbeatPair) return;
 
                 const attackCard = unbeatPair.attack;
-                const beats = (selectedCard.suit === attackCard.suit && selectedCard.rank > attackCard.rank) ||
-                              (selectedCard.suit === trumpSuit && attackCard.suit !== trumpSuit);
+
+                let beats = false;
+
+                if (selectedCard.isJoker) {
+                    beats = true;
+                } else if (attackCard.isJoker) {
+                    beats = false;
+                } else {
+                    beats = (selectedCard.suit === attackCard.suit && selectedCard.rank > attackCard.rank) ||
+                        (selectedCard.suit === trumpSuit && attackCard.suit !== trumpSuit);
+                }
 
                 if (!beats) {
                     showToast("Ця карта не б'є атакуючу!");
@@ -1557,7 +1819,7 @@
 
                 myHand.splice(cardIndex, 1);
                 unbeatPair.defense = selectedCard;
-                
+
                 updateUI();
                 checkActionState();
             }
@@ -1565,13 +1827,13 @@
 
         function handleMainButton() {
             if (gameEnded) return;
-            
+
             let myRole = isHost ? 'host' : 'guest';
             if (myRole === attacker && table.length > 0 && table.every(p => p.defense !== null)) {
                 discardPileCount += table.length * 2;
                 table = [];
                 refillHands();
-                
+
                 let temp = attacker;
                 attacker = defender;
                 defender = temp;
@@ -1583,7 +1845,7 @@
 
         function handleTakeButton() {
             if (gameEnded) return;
-            
+
             let myRole = isHost ? 'host' : 'guest';
             let myHand = getMyHand();
             if (myRole === defender && table.length > 0 && table.some(p => p.defense === null)) {
@@ -1601,7 +1863,7 @@
 
         function refillHands() {
             if (gameEnded) return;
-            
+
             if (attacker === 'host') {
                 while (hostHand.length < 6 && deck.length > 0) hostHand.push(deck.pop());
                 while (guestHand.length < 6 && deck.length > 0) guestHand.push(deck.pop());
@@ -1614,51 +1876,51 @@
 
         function checkWinnerAfterAction() {
             if (gameEnded) return;
-            
+
             if (hostHand.length === 0 && guestHand.length === 0) {
                 triggerGameOver("Бито!", "У всіх картки закінчилися.", true);
                 return true;
             }
-            
+
             if (hostHand.length === 0) {
                 triggerGameOver(
-                    isHost ? "Перемога!" : "Поразка!", 
+                    isHost ? "Перемога!" : "Поразка!",
                     isHost ? "Ви виграли партію!" : "Суперник виявився сильнішим.",
                     false
                 );
                 return true;
             }
-            
+
             if (guestHand.length === 0) {
                 triggerGameOver(
-                    isHost ? "Поразка!" : "Перемога!", 
+                    isHost ? "Поразка!" : "Перемога!",
                     isHost ? "Суперник виявився сильнішим." : "Ви виграли партію!",
                     false
                 );
                 return true;
             }
-            
+
             return false;
         }
 
         function triggerGameOver(title, desc, isDraw = false) {
             if (gameEnded) return;
             gameEnded = true;
-            
+
             let finalTitle = title;
             let finalDesc = desc;
-            
+
             if (isDraw) {
                 finalTitle = "Бито!";
                 finalDesc = "У всіх картки закінчилися.";
             }
-            
+
             showGameOver(finalTitle, finalDesc, isDraw);
-            
+
             if (conn) {
                 let opponentTitle = finalTitle;
                 let opponentDesc = finalDesc;
-                
+
                 if (!isDraw) {
                     if (finalTitle === "Перемога!") {
                         opponentTitle = "Поразка!";
@@ -1668,9 +1930,9 @@
                         opponentDesc = "Ви виграли партію!";
                     }
                 }
-                
-                conn.send({ 
-                    type: 'GAME_OVER', 
+
+                conn.send({
+                    type: 'GAME_OVER',
                     title: opponentTitle,
                     desc: opponentDesc,
                     isDraw: isDraw
@@ -1681,13 +1943,13 @@
         function showGameOver(title, desc, isDraw = false) {
             const modal = document.getElementById('game-over-modal');
             const card = document.getElementById('game-over-card');
-            
+
             if (isDraw || title === "Бито!") {
                 card.className = 'modal-card draw';
             } else {
                 card.className = 'modal-card';
             }
-            
+
             document.getElementById('modal-title').innerText = title;
             document.getElementById('modal-desc').innerText = desc;
             modal.classList.remove('hidden');
