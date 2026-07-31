@@ -32,41 +32,6 @@
             width: 100vw;
         }
 
-        /* Стилі для плашки переходу на ПК версію */
-        .desktop-banner {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background: #1a1a1a;
-            color: #fff;
-            padding: 10px 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 15px;
-            z-index: 1000;
-            border-bottom: 2px solid #ffffff;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-            font-size: 14px;
-            text-align: center;
-        }
-
-        .desktop-btn {
-            background: #ffffff;
-            color: #121212;
-            padding: 6px 14px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: bold;
-            white-space: nowrap;
-            transition: transform 0.1s;
-        }
-
-        .desktop-btn:active {
-            transform: scale(0.95);
-        }
-
         .screen {
             position: absolute;
             width: 100%;
@@ -695,14 +660,14 @@
             </div>
 
             <div id="tab-create" class="tab-content active">
-                <p style="margin-bottom: 0; color: #9e9e9e; font-size: 13px;">Ваш код для друга:</p>
+                <p style="margin-bottom: 0; color: #9e9e9e; font-size: 13px;">Ваш нік для друга:</p>
                 <h1 id="room-code-display" style="color: #ffffff; font-size: 20px; letter-spacing: 1px; margin: 4px 0; word-break: break-all;">----</h1>
                 <p id="wait-status" style="font-size: 12px; margin-bottom: 4px;">Очікування підключення...</p>
                 <button onclick="returnToMainFromPlay()" style="background: #37474f; color: #fff;">Назад</button>
             </div>
 
             <div id="tab-join" class="tab-content">
-                <input type="text" id="room-code-input" maxlength="20" placeholder="Код (нік) друга" style="margin-bottom: 0;" autocomplete="off" />
+                <input type="text" id="room-code-input" maxlength="20" placeholder="Нік друга" style="margin-bottom: 0;" autocomplete="off" />
                 <button onclick="connectToGame()">Грати</button>
                 <button onclick="returnToMainFromPlay()" style="background: #37474f; color: #fff;">Назад</button>
             </div>
@@ -821,7 +786,6 @@
     </div>
 
     <script>
-        // Функція перевірки пристрою: на ПК приховує інтерфейс та залишає лише плашку на темному фоні
         function checkDeviceType() {
             const banner = document.getElementById('desktop-redirect-banner');
             const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
@@ -829,7 +793,6 @@
 
             if (!isMobile && isWideScreen) {
                 banner.classList.remove('hidden');
-                // Приховуємо весь контент гри/меню на ПК, залишаючи лише темний фон та плашку
                 document.getElementById('auth-screen').classList.add('hidden');
                 document.getElementById('main-menu').classList.add('hidden');
                 document.getElementById('play-menu').classList.add('hidden');
@@ -871,7 +834,7 @@
         window.onload = () => {
             const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
             const isWideScreen = window.innerWidth > 1024;
-            if (!isMobile && isWideScreen) return; // Не показуємо меню на ПК
+            if (!isMobile && isWideScreen) return;
 
             if (myNickname) {
                 document.getElementById('auth-screen').classList.add('hidden');
@@ -1189,8 +1152,7 @@
             }
 
             startGameScreen();
-            sendState();
-            updateUI();
+            checkActionState();
         }
 
         function getMinTrump(hand) {
@@ -1201,6 +1163,24 @@
 
         function getMyHand() { return isHost ? hostHand : guestHand; }
         function getOpponentHand() { return isHost ? guestHand : hostHand; }
+
+        function checkActionState() {
+            if (isHost) {
+                checkWinner();
+                sendState();
+                updateUI();
+            } else {
+                conn.send({
+                    type: 'STATE',
+                    state: {
+                        deck, hostHand, guestHand, table, discardPileCount, trumpSuit, trumpCard, attacker, defender,
+                        opponentNickname: myNickname,
+                        opponentAvatar: myAvatar
+                    }
+                });
+                updateUI();
+            }
+        }
 
         function sendState() {
             if (!conn) return;
@@ -1351,17 +1331,21 @@
                         return;
                     }
                     if (table.length >= 6 || table.length >= getOpponentHand().length) {
-                        showToast("Ліміт карт на столі!");
+                        showToast("Ліміт карт на столі вичерпано!");
                         return;
                     }
-                    if (table.some(p => p.defense === null)) {
-                        showToast("Дочекайтеся захисту суперника!");
+                } else {
+                    const currentThrowValues = table.map(p => p.attack.value);
+                    if (currentThrowValues.length > 0 && !currentThrowValues.includes(selectedCard.value)) {
+                        showToast("Можна кидати лише карти однакового номіналу!");
                         return;
                     }
                 }
 
                 myHand.splice(cardIndex, 1);
                 table.push({ attack: selectedCard, defense: null });
+                
+                updateUI();
                 checkActionState();
 
             } else if (myRole === defender) {
@@ -1379,6 +1363,8 @@
 
                 myHand.splice(cardIndex, 1);
                 unbeatPair.defense = selectedCard;
+                
+                updateUI();
                 checkActionState();
             }
         }
@@ -1394,6 +1380,7 @@
                 attacker = defender;
                 defender = temp;
 
+                updateUI();
                 checkActionState();
             }
         }
@@ -1409,25 +1396,8 @@
                 table = [];
                 refillHands();
 
+                updateUI();
                 checkActionState();
-            }
-        }
-
-        function checkActionState() {
-            if (isHost) {
-                checkWinner();
-                sendState();
-                updateUI();
-            } else {
-                conn.send({
-                    type: 'STATE',
-                    state: {
-                        deck, hostHand, guestHand, table, discardPileCount, trumpSuit, trumpCard, attacker, defender,
-                        opponentNickname: myNickname,
-                        opponentAvatar: myAvatar
-                    }
-                });
-                updateUI();
             }
         }
 
@@ -1445,9 +1415,9 @@
         function checkWinner() {
             if (deck.length === 0) {
                 if (hostHand.length === 0 && guestHand.length > 0) {
-                    triggerGameOver("Перемога!", "Ви виграли партію.");
+                    triggerGameOver("Перемога!", "Вітаємо! Ви виграли партію.");
                 } else if (guestHand.length === 0 && hostHand.length > 0) {
-                    triggerGameOver("Поразка", "Суперник переміг.");
+                    triggerGameOver("Поразка", "Суперник виявився спритнішим.");
                 }
             }
         }
