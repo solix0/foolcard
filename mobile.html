@@ -18,24 +18,28 @@
             -webkit-touch-callout: none;
         }
 
-        body {
+body {
             background: #121212;
             color: #e0e0e0;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
-            height: 100dvh;
-            overflow: hidden;
+            min-height: 100vh;
+            min-height: 100dvh;
+            overflow-x: hidden;
             position: relative;
-            width: 100vw;
+            width: 100%; /* Змінено з 100vw на 100% */
+            margin: 0;
         }
 
         .screen {
             position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
-            height: 100%;
+            min-height: 100vh;
+            min-height: 100dvh;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -43,14 +47,46 @@
             background: #121212;
             transition: opacity 0.3s ease;
             z-index: 10;
-            max-width: 600px;
+            box-sizing: border-box; /* Додано, щоб відступи не розширювали ширину */
         }
 
-        #game-screen {
-            background: radial-gradient(circle, #1b5e20 0%, #0b3d19 100%);
+        /* КРАСИВИЙ ФОН ДЛЯ ГОЛОВНОГО МЕНЮ ТА ЕКРАНІВ АВТОРИЗАЦІЇ/ГРИ */
+        #main-menu, #auth-screen, #play-menu {
+            background: radial-gradient(circle at center, #1b4d3e 0%, #0d231b 60%, #071410 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Декоративні елементи (патерн карткових мастей на фоні) */
+        #main-menu::before, #auth-screen::before, #play-menu::before {
+            content: "♠ ♣ ♦ ♥ ♠ ♣ ♦ ♥";
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            right: -50px;
+            bottom: -50px;
+            font-size: 80px;
+            color: rgba(255, 255, 255, 0.015);
+            line-height: 1.5;
+            letter-spacing: 30px;
+            z-index: 0;
+            transform: rotate(-15deg);
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+#game-screen {
+            background: radial-gradient(circle at center, #1b4d3e 0%, #0d231b 60%, #071410 100%);
             justify-content: space-between;
             padding: 8px;
             max-width: 100% !important;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%; /* Змінено з 100vw на 100% */
+            height: 100vh;
+            height: 100dvh;
+            box-sizing: border-box;
         }
 
         .hidden {
@@ -59,24 +95,29 @@
 
         .menu-container {
             text-align: center;
-            background: #1a1a1a;
+            background: rgba(18, 18, 18, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             padding: 30px 20px;
-            border-radius: 16px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.7);
-            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             width: 90%;
             max-width: 400px;
+            z-index: 1;
+            position: relative;
         }
 
         .menu-container h1 {
             font-size: 38px;
             margin-bottom: 10px;
             color: #ffffff;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
         }
 
         .menu-container p {
-            color: #9e9e9e;
+            color: #b0bec5;
             margin-bottom: 20px;
             font-size: 15px;
         }
@@ -84,7 +125,7 @@
         .menu-buttons {
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            gap: 12px;
             width: 100%;
             margin: 0 auto;
         }
@@ -94,18 +135,18 @@
             color: #121212;
             border: none;
             padding: 14px 24px;
-            font-size: 18px;
-            border-radius: 8px;
+            font-size: 16px;
+            border-radius: 10px;
             cursor: pointer;
             font-weight: bold;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            transition: transform 0.1s, background 0.2s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: transform 0.15s ease, background 0.2s ease, box-shadow 0.2s ease;
             width: 100%;
             -webkit-tap-highlight-color: transparent;
         }
 
         button:active {
-            transform: scale(0.97);
+            transform: translateY(1px);
         }
 
         button:disabled {
@@ -121,21 +162,27 @@
             padding: 14px;
             font-size: 18px;
             text-align: center;
-            border-radius: 8px;
+            border-radius: 10px;
             border: 1px solid rgba(255,255,255,0.2);
             margin-bottom: 14px;
-            background: rgba(0,0,0,0.3);
+            background: rgba(0, 0, 0, 0.4);
             color: #fff;
             outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input[type="text"]:focus {
+            border-color: rgba(255, 255, 255, 0.5);
         }
 
         .tabs-header {
             display: flex;
-            background: #121212;
-            border-radius: 8px;
-            margin-bottom: 12px;
+            background: rgba(12, 12, 12, 0.6);
+            border-radius: 10px;
+            margin-bottom: 15px;
             border: 1px solid rgba(255,255,255,0.1);
             overflow: hidden;
+            padding: 3px;
         }
 
         .tab-btn {
@@ -143,12 +190,12 @@
             background: transparent;
             color: #9e9e9e;
             border: none;
-            padding: 12px;
-            font-size: 16px;
+            padding: 10px;
+            font-size: 14px;
             font-weight: bold;
             cursor: pointer;
             box-shadow: none;
-            border-radius: 0;
+            border-radius: 8px;
             transition: background 0.2s, color 0.2s;
             width: auto;
         }
@@ -156,6 +203,7 @@
         .tab-btn.active {
             background: #ffffff;
             color: #121212;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
         }
 
         .tab-content {
@@ -165,51 +213,36 @@
         .tab-content.active {
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            gap: 12px;
         }
 
-        /* НОВІ ХОВЕР-ЕЛЕМЕНТИ ДЛЯ ТЕКСТУ (НЕ КНОПКИ) */
+        /* ХОВЕР-ЕЛЕМЕНТИ ДЛЯ ТЕКСТУ */
         .info-hover-card-1,
         .info-hover-card-2,
         .info-hover-card-3 {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 8px;
-            padding: 10px 14px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            padding: 12px 16px;
             text-align: center;
             transition: all 0.25s ease;
             cursor: default;
         }
 
-        /* 1 ховер фон */
-        .info-hover-card-1:hover {
-            background: rgba(255, 255, 255, 0.07);
-            border-color: rgba(255, 255, 255, 0.15);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-        }
-
-        /* 2 ховер фон (з легким відтінком синюватого/сірого) */
-        .info-hover-card-2:hover {
-            background: rgba(255, 255, 255, 0.07);
+        .info-hover-card-1:active,
+        .info-hover-card-2:active,
+        .info-hover-card-3:active {
+            background: rgba(255, 255, 255, 0.08);
             border-color: rgba(255, 255, 255, 0.2);
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-        }
-
-        /* 3 ховер фон (трохи яскравіший ефект) */
-        .info-hover-card-3:hover {
-            background: rgba(255, 255, 255, 0.07);
-            border-color: rgba(255, 255, 255, 0.3);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.4);
         }
 
         header {
             text-align: center;
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.35);
             padding: 6px 10px;
-            border-radius: 10px;
+            border-radius: 12px;
             width: 100%;
             display: flex;
             justify-content: space-between;
@@ -217,6 +250,8 @@
             border: 1px solid rgba(255,255,255,0.05);
             box-shadow: 0 4px 12px rgba(0,0,0,0.3);
             backdrop-filter: blur(4px);
+            position: relative;
+            z-index: 1;
         }
 
         .player-hud {
@@ -260,17 +295,18 @@
 
         .game-info {
             font-size: 12px;
-            font-weight: 600;
+            font-weight: 500;
             color: #e0e0e0;
             text-align: center;
         }
 
         .menu-trigger-btn {
-            background: #37474f;
+            background: rgba(255, 255, 255, 0.1);
             color: #fff;
+            border: 1px solid rgba(255,255,255,0.15);
             padding: 6px 10px;
             font-size: 12px;
-            border-radius: 6px;
+            border-radius: 8px;
             width: auto;
             box-shadow: 0 2px 6px rgba(0,0,0,0.3);
         }
@@ -285,6 +321,7 @@
             position: relative;
             gap: 4px;
             overflow: hidden;
+            z-index: 1;
         }
 
         .hand-area-wrapper {
@@ -303,9 +340,9 @@
             padding: 4px 6px;
             background: rgba(0, 0, 0, 0.25);
             border: 1px solid rgba(255,255,255,0.04);
-            border-radius: 10px;
+            border-radius: 12px;
             width: 100%;
-            box-shadow: inset 0 2px 6px rgba(0,0,0,0.4);
+            box-shadow: inset 0 4px 10px rgba(0,0,0,0.4);
             backdrop-filter: blur(4px);
             overflow-x: auto;
             overflow-y: hidden;
@@ -357,7 +394,7 @@
         }
         .discard-area.active-discard .discard-card-view {
             border-color: #ffffff;
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.15);
             box-shadow: 0 0 10px rgba(255,255,255,0.6);
         }
 
@@ -368,7 +405,7 @@
             background: rgba(255, 255, 255, 0.08);
             border: 2px dashed rgba(255, 255, 255, 0.2);
             border-radius: 8px;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
             transition: all 0.2s ease;
         }
 
@@ -378,7 +415,7 @@
             font-weight: bold;
             color: #ffffff;
             z-index: 6;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.9);
+            text-shadow: 0 2px 6px rgba(0,0,0,0.9);
             pointer-events: none;
         }
 
@@ -386,7 +423,7 @@
             position: absolute;
             bottom: -16px;
             font-size: 11px;
-            color: rgba(255,255,255,0.8);
+            color: rgba(255,255,255,0.7);
             font-weight: 500;
             text-align: center;
             width: 100%;
@@ -403,7 +440,7 @@
             padding: 4px;
             margin: 0 4px;
             background: rgba(0,0,0,0.15);
-            border-radius: 8px;
+            border-radius: 10px;
             border: 1px dashed rgba(255,255,255,0.1);
             max-height: 100%;
             overflow-y: auto;
@@ -429,7 +466,7 @@
         .card {
             width: 60px;
             height: 85px;
-            background: #ffffff;
+            background: #f0f0f0;
             color: #111;
             border-radius: 8px;
             display: flex;
@@ -439,9 +476,9 @@
             font-weight: bold;
             font-size: 13px;
             cursor: pointer;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.4);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.6);
             position: relative;
-            border: 1px solid #ccc;
+            border: 1px solid #b5b5b5;
             flex-shrink: 0;
             transition: transform 0.15s;
         }
@@ -452,28 +489,28 @@
         }
 
         .card.red {
-            color: #d32f2f;
+            color: #c62828;
         }
 
         .card.back {
-            background: linear-gradient(135deg, #d32f2f 50%, #212121 50%);
-            border: 1.5px solid #fff;
+            background: linear-gradient(135deg, #b71c1c 50%, #1a1a1a 50%);
+            border: 1.5px solid #ddd;
             color: transparent;
             cursor: default;
             width: 38px;
             height: 55px;
             padding: 0;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.6);
         }
 
         .deck-card-back {
             position: absolute;
             width: 60px;
             height: 85px;
-            background: linear-gradient(135deg, #d32f2f 50%, #212121 50%);
-            border: 1.5px solid #fff;
+            background: linear-gradient(135deg, #b71c1c 50%, #1a1a1a 50%);
+            border: 1.5px solid #ddd;
             border-radius: 8px;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.5);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.6);
             z-index: 2;
             right: 0;
         }
@@ -483,7 +520,7 @@
             width: 60px;
             height: 85px;
             border-radius: 8px;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.5);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.6);
             transform: rotate(90deg) translateY(-12px);
             transform-origin: center;
             right: 25px;
@@ -499,7 +536,7 @@
             font-weight: bold;
             color: #ffffff;
             z-index: 6;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.9);
+            text-shadow: 0 2px 6px rgba(0,0,0,0.9);
             pointer-events: none;
         }
 
@@ -532,7 +569,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.85);
+            background: rgba(0, 0, 0, 0.8);
             backdrop-filter: blur(4px);
             display: flex;
             align-items: center;
@@ -543,7 +580,7 @@
 
         .modal-card {
             background: #1a1a1a;
-            padding: 22px 18px;
+            padding: 25px 20px;
             border-radius: 14px;
             text-align: center;
             box-shadow: 0 15px 35px rgba(0,0,0,0.7);
@@ -556,15 +593,15 @@
         }
 
         .rules-scroll-container {
-            max-height: 45vh;
+            max-height: 50vh;
             overflow-y: auto;
             text-align: left;
             padding-right: 4px;
-            margin-top: 8px;
+            margin-top: 10px;
         }
 
         .rules-scroll-container::-webkit-scrollbar {
-            width: 3px;
+            width: 4px;
         }
 
         .rules-scroll-container::-webkit-scrollbar-thumb {
@@ -573,23 +610,23 @@
         }
 
         .modal-card h2 {
-            font-size: 22px;
-            margin-bottom: 8px;
+            font-size: 24px;
+            margin-bottom: 10px;
             color: #ffffff;
         }
 
         .modal-card p {
-            font-size: 13px;
-            margin-bottom: 12px;
+            font-size: 14px;
+            margin-bottom: 15px;
             color: #9e9e9e;
-            line-height: 1.3;
+            line-height: 1.4;
         }
 
         .avatar-container {
             position: relative;
-            width: 70px;
-            height: 70px;
-            margin: 0 auto 10px auto;
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 12px auto;
             border-radius: 50%;
             overflow: hidden;
             border: 2px solid rgba(255,255,255,0.2);
@@ -620,13 +657,13 @@
 
         #toast-container {
             position: fixed;
-            top: 12px;
+            top: 15px;
             left: 50%;
             transform: translateX(-50%);
             z-index: 100;
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 8px;
             pointer-events: none;
             width: 90%;
             max-width: 320px;
@@ -636,9 +673,9 @@
         .toast {
             background: #1a1a1a;
             color: #fff;
-            padding: 10px 16px;
+            padding: 12px 20px;
             border-radius: 8px;
-            font-size: 13px;
+            font-size: 14px;
             box-shadow: 0 6px 20px rgba(0,0,0,0.6);
             border-left: 4px solid #ffffff;
             animation: fadeInOut 3s forwards;
@@ -647,10 +684,10 @@
         }
 
         @keyframes fadeInOut {
-            0% { opacity: 0; transform: translateY(-12px); }
+            0% { opacity: 0; transform: translateY(-15px); }
             15% { opacity: 1; transform: translateY(0); }
             85% { opacity: 1; transform: translateY(0); }
-            100% { opacity: 0; transform: translateY(-12px); }
+            100% { opacity: 0; transform: translateY(-15px); }
         }
     </style>
 </head>
@@ -681,13 +718,13 @@
         <div class="menu-container">
             <h1>FOOLCARD</h1>
             <!-- 1 ховер фон для тексту "Вітаємо!" -->
-            <div class="info-hover-card-1" style="margin-bottom: 15px;">
-                <p id="welcome-user" style="margin-bottom: 0; color: #9e9e9e; font-size: 15px;">Вітаємо!</p>
+            <div class="info-hover-card-1" style="margin-bottom: 12px;">
+                <p id="welcome-user" style="margin-bottom: 0; color: #b0bec5; font-size: 15px;">Вітаємо!</p>
             </div>
             <div class="menu-buttons">
                 <button onclick="showPlayMenu()">Грати</button>
-                <button onclick="openProfileModal()" style="background: #37474f; color: #fff;">Профіль</button>
-                <button onclick="openRulesModal(false)" style="background: #37474f; color: #fff;">Правила гри</button>
+                <button onclick="openProfileModal()" style="background: rgba(255, 255, 255, 0.1); color: #fff; border: 1px solid rgba(255,255,255,0.15);">Профіль</button>
+                <button onclick="openRulesModal(false)" style="background: rgba(255, 255, 255, 0.1); color: #fff; border: 1px solid rgba(255,255,255,0.15);">Правила гри</button>
             </div>
         </div>
     </div>
@@ -702,7 +739,7 @@
             <div id="tab-create" class="tab-content active">
                 <!-- 2 ховер фон для "Ваш нік для друга:" та коду -->
                 <div class="info-hover-card-2">
-                    <p style="margin-bottom: 0; color: #9e9e9e; font-size: 13px;">Ваш нік для друга:</p>
+                    <p style="margin-bottom: 0; color: #b0bec5; font-size: 13px;">Ваш нік для друга:</p>
                     <h1 id="room-code-display" style="color: #ffffff; font-size: 24px; letter-spacing: 2px; margin: 4px 0; word-break: break-all;">----</h1>
                 </div>
                 
@@ -711,13 +748,13 @@
                     <p id="wait-status" style="font-size: 13px; margin-bottom: 0; color: #e0e0e0;">Очікування підключення...</p>
                 </div>
 
-                <button onclick="returnToMainFromPlay()" style="background: #37474f; color: #fff;">Назад</button>
+                <button onclick="returnToMainFromPlay()" style="background: rgba(255, 255, 255, 0.1); color: #fff; border: 1px solid rgba(255,255,255,0.15);">Назад</button>
             </div>
 
             <div id="tab-join" class="tab-content">
                 <input type="text" id="room-code-input" maxlength="20" placeholder="Нік друга" style="margin-bottom: 0;" autocomplete="off" />
                 <button onclick="connectToGame()">Грати</button>
-                <button onclick="returnToMainFromPlay()" style="background: #37474f; color: #fff;">Назад</button>
+                <button onclick="returnToMainFromPlay()" style="background: rgba(255, 255, 255, 0.1); color: #fff; border: 1px solid rgba(255,255,255,0.15);">Назад</button>
             </div>
         </div>
     </div>
@@ -728,15 +765,15 @@
             <p>Змініть аватарку або нікнейм</p>
             
             <div class="avatar-container" onclick="document.getElementById('avatar-file-input').click()">
-                <img id="profile-avatar-preview" src="ava.png" alt="Аватарка" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%23888\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'><path d=\'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2\'></path><circle cx=\'12\' cy=\'7\' r=\'4\'></circle></svg>';">
+                <img id="profile-avatar-preview" src="ava.png" alt="Аватарка" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'80\' height=\'80\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%23888\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'><path d=\'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2\'></path><circle cx=\'12\' cy=\'7\' r=\'4\'></circle></svg>';">
                 <div class="avatar-overlay">Змінити</div>
             </div>
             <input type="file" id="avatar-file-input" accept="image/*" style="display: none;" onchange="handleAvatarUpload(event)">
 
             <input type="text" id="profile-nickname-input" maxlength="20" placeholder="Нікнейм" autocomplete="off" />
 
-            <div style="display: flex; gap: 8px; margin-top: 10px;">
-                <button onclick="closeProfileModal()" style="background: #37474f; color: #fff;">Скасувати</button>
+            <div style="display: flex; gap: 10px; margin-top: 15px;">
+                <button onclick="closeProfileModal()" style="background: rgba(255, 255, 255, 0.1); color: #fff; border: 1px solid rgba(255,255,255,0.15);">Скасувати</button>
                 <button onclick="saveProfile()" style="background: #ffffff; color: #121212;">Зберегти</button>
             </div>
         </div>
@@ -744,26 +781,26 @@
 
     <div id="rules-modal" class="modal-overlay hidden">
         <div class="modal-card" style="text-align: left;">
-            <h2 style="text-align: center; margin-bottom: 8px;">Правила гри</h2>
+            <h2 style="text-align: center; margin-bottom: 12px;">Правила гри</h2>
             
             <div class="rules-scroll-container">
-                <div style="font-size: 12px; color: #ccc; display: flex; flex-direction: column; gap: 8px; line-height: 1.3;">
+                <div style="font-size: 13px; color: #ccc; display: flex; flex-direction: column; gap: 10px; line-height: 1.4;">
                     <p><strong>Мобільна версія:</strong></p>
-                    <ul style="padding-left: 14px; display: flex; flex-direction: column; gap: 3px;">
-                        <li><strong>Створення:</strong> «Грати» -> «Створити» та надішліть нік другу.</li>
+                    <ul style="padding-left: 16px; display: flex; flex-direction: column; gap: 4px;">
+                        <li><strong>Створення:</strong> «Грати» -> «Створити» та надішліть свій нік другу.</li>
                         <li><strong>Підключення:</strong> Введіть нік друга у вкладці «Підключитися».</li>
-                        <li><strong>Карти в руці:</strong> Прокручуйте горизонтально вашу колоду внизу екрана.</li>
+                        <li><strong>Карти в руці:</strong> Прокручуйте колоду горизонтально внизу екрана.</li>
                     </ul>
                     <p><strong>Інтерфейс:</strong></p>
-                    <ul style="padding-left: 14px; display: flex; flex-direction: column; gap: 3px;">
-                        <li><strong>«Бито» (зліва):</strong> Тисніть коли відбилися.</li>
-                        <li><strong>«Взяти» (стіл):</strong> Тисніть якщо берете карти.</li>
+                    <ul style="padding-left: 16px; display: flex; flex-direction: column; gap: 4px;">
+                        <li><strong>«Бито» (зліва):</strong> Тисніть, коли успішно відбилися.</li>
+                        <li><strong>«Взяти» (на столі):</strong> Тисніть, якщо забираєте карти.</li>
                     </ul>
-                    <p style="text-align: right; font-size: 11px; color: #888; margin-top: 4px;">solix © v1.16 mob</p>
+                    <p style="text-align: right; font-size: 11px; color: #888; margin-top: 8px;">solix © v1.16 mob</p>
                 </div>
             </div>
 
-            <div style="margin-top: 12px; text-align: center;">
+            <div style="margin-top: 15px; text-align: center;">
                 <button onclick="closeRulesModal()" style="background: #ffffff; color: #121212; width: 100%;">Зрозуміло</button>
             </div>
         </div>
@@ -777,7 +814,7 @@
                 </div>
                 <div class="hud-info">
                     <span class="hud-name" id="opponent-hud-name">Суперник</span>
-                    <span class="game-info" id="opponent-hud-cards" style="font-size: 10px; color: #aaa;">Карт: 6</span>
+                    <span class="game-info" id="opponent-hud-cards" style="font-size: 10px; color: #aaa; text-align: left;">Карт: 6</span>
                 </div>
             </div>
 
@@ -817,10 +854,10 @@
         <div class="modal-card">
             <h2>Пауза</h2>
             <p>Гру призупинено. Виберіть подальшу дію:</p>
-            <div style="display: flex; flex-direction: column; gap: 8px;">
+            <div style="display: flex; flex-direction: column; gap: 12px;">
                 <button onclick="closePauseModal()" style="background: #ffffff; color: #121212;">Назад</button>
-                <button onclick="openRulesModal(true)" style="background: #37474f; color: #fff;">Правила гри</button>
-                <button onclick="returnToMenu()" style="background: #37474f; color: #fff;">Вийти в меню</button>
+                <button onclick="openRulesModal(true)" style="background: rgba(255, 255, 255, 0.1); color: #fff; border: 1px solid rgba(255,255,255,0.15);">Правила гри</button>
+                <button onclick="returnToMenu()" style="background: rgba(255, 255, 255, 0.1); color: #fff; border: 1px solid rgba(255,255,255,0.15);">Вийти в меню</button>
             </div>
         </div>
     </div>
@@ -1276,7 +1313,15 @@
 
         function updateUI() {
             const deckCountEl = document.getElementById('deck-count');
-            deckCountEl.innerText = deck.length > 0 ? deck.length : "0";
+            if (deck.length === 1) {
+                deckCountEl.innerText = "";
+            } else if (deck.length === 2) {
+                deckCountEl.innerText = "2";
+            } else if (deck.length === 0) {
+                deckCountEl.innerText = "0";
+            } else {
+                deckCountEl.innerText = deck.length;
+            }
 
             document.getElementById('discard-count').innerText = discardPileCount;
 
@@ -1290,9 +1335,19 @@
             let myRole = isHost ? 'host' : 'guest';
             let statusText = "";
             if (myRole === attacker) {
-                statusText = table.length === 0 ? "Ваш хід (атака)" : "Підкиньте або «Бито»";
+                if (table.length === 0) {
+                    statusText = "Ваш хід: атакуйте.";
+                } else {
+                    statusText = "Підкиньте або «Бито».";
+                }
             } else {
-                statusText = table.length === 0 ? "Хід суперника" : "Захист! Відбийте або «Взяти»";
+                if (table.length === 0) {
+                    statusText = "Суперник ходить...";
+                } else if (table.some(p => p.defense === null)) {
+                    statusText = "Захист! Бийте або «Взяти».";
+                } else {
+                    statusText = "Очікування...";
+                }
             }
             document.getElementById('game-status').innerText = statusText;
 
@@ -1315,7 +1370,7 @@
 
             let oppHTML = '';
             for (let i = 0; i < oppHand.length; i++) {
-                oppHTML += `<div class="card back"></div>`;
+                oppHTML += `<div class="card back">?</div>`;
             }
             document.getElementById('opponent-hand').innerHTML = oppHTML;
 
@@ -1346,14 +1401,16 @@
             document.getElementById('table-area').innerHTML = tableHTML;
 
             const discardAreaBox = document.getElementById('discard-area-box');
-            if (myRole === attacker && table.length > 0 && table.every(p => p.defense !== null)) {
+            const canDiscard = (myRole === attacker && table.length > 0 && table.every(p => p.defense !== null));
+            if (canDiscard) {
                 discardAreaBox.classList.add('active-discard');
             } else {
                 discardAreaBox.classList.remove('active-discard');
             }
 
             const tableAreaBox = document.getElementById('table-area');
-            if (myRole === defender && table.length > 0 && table.some(p => p.defense === null)) {
+            const canTake = (myRole === defender && table.length > 0 && table.some(p => p.defense === null));
+            if (canTake) {
                 tableAreaBox.classList.add('active-take');
             } else {
                 tableAreaBox.classList.remove('active-take');

@@ -41,10 +41,37 @@
             z-index: 10;
         }
 
+        /* КРАСИВИЙ ФОН ДЛЯ ГОЛОВНОГО МЕНЮ ТА ЕКРАНІВ АВТОРИЗАЦІЇ/ГРИ */
+        #main-menu, #auth-screen, #play-menu {
+            background: radial-gradient(circle at center, #1b4d3e 0%, #0d231b 60%, #071410 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Декоративні елементи (патерн карткових мастей на фоні головного меню та авторизації/меню гри) */
+        #main-menu::before, #auth-screen::before, #play-menu::before {
+            content: "♠ ♣ ♦ ♥ ♠ ♣ ♦ ♥";
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            right: -50px;
+            bottom: -50px;
+            font-size: 120px;
+            color: rgba(255, 255, 255, 0.015);
+            line-height: 1.5;
+            letter-spacing: 50px;
+            z-index: 0;
+            transform: rotate(-15deg);
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
         #game-screen {
-            background: radial-gradient(circle, #1b5e20 0%, #0b3d19 100%);
+            background: radial-gradient(circle at center, #1b4d3e 0%, #0d231b 60%, #071410 100%);
             justify-content: space-between;
             padding: 15px 30px;
+            position: relative;
+            overflow: hidden;
         }
 
         .hidden {
@@ -53,23 +80,28 @@
 
         .menu-container {
             text-align: center;
-            background: #1a1a1a;
+            background: rgba(18, 18, 18, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             padding: 40px 50px;
-            border-radius: 16px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.7);
-            border: 1px solid rgba(255,255,255,0.08);
-            width: 380px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 400px;
+            z-index: 1;
+            position: relative;
         }
 
         .menu-container h1 {
-            font-size: 46px;
+            font-size: 48px;
             margin-bottom: 10px;
             color: #ffffff;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
         }
 
         .menu-container p {
-            color: #9e9e9e;
+            color: #b0bec5;
             margin-bottom: 20px;
             font-size: 15px;
         }
@@ -86,19 +118,20 @@
             background: #ffffff;
             color: #121212;
             border: none;
-            padding: 12px 24px;
+            padding: 14px 24px;
             font-size: 16px;
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
             font-weight: bold;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            transition: transform 0.1s, background 0.2s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: transform 0.15s ease, background 0.2s ease, box-shadow 0.2s ease;
             width: 100%;
         }
 
         button:hover {
-            background: #e0e0e0;
+            background: #f5f5f5;
             transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
         }
 
         button:active {
@@ -115,25 +148,31 @@
 
         input[type="text"] {
             width: 100%;
-            padding: 12px;
+            padding: 14px;
             font-size: 18px;
             text-align: center;
-            border-radius: 8px;
+            border-radius: 10px;
             border: 1px solid rgba(255,255,255,0.2);
-            margin-bottom: 12px;
-            background: rgba(0,0,0,0.3);
+            margin-bottom: 15px;
+            background: rgba(0, 0, 0, 0.4);
             color: #fff;
             outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input[type="text"]:focus {
+            border-color: rgba(255, 255, 255, 0.5);
         }
 
         /* Стилі для верхніх вкладок */
         .tabs-header {
             display: flex;
-            background: #121212;
-            border-radius: 8px;
-            margin-bottom: 10px;
+            background: rgba(12, 12, 12, 0.6);
+            border-radius: 10px;
+            margin-bottom: 15px;
             border: 1px solid rgba(255,255,255,0.1);
             overflow: hidden;
+            padding: 3px;
         }
 
         .tab-btn {
@@ -146,7 +185,7 @@
             font-weight: bold;
             cursor: pointer;
             box-shadow: none;
-            border-radius: 0;
+            border-radius: 8px;
             transition: background 0.2s, color 0.2s;
             width: auto;
         }
@@ -154,11 +193,13 @@
         .tab-btn:hover {
             background: rgba(255,255,255,0.05);
             transform: none;
+            color: #fff;
         }
 
         .tab-btn.active {
             background: #ffffff;
             color: #121212;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
         }
 
         .tab-content {
@@ -171,41 +212,26 @@
             gap: 12px;
         }
 
-        /* НОВІ ХОВЕР-ЕЛЕМЕНТИ ДЛЯ ТЕКСТУ (НЕ КНОПКИ) */
+        /* ХОВЕР-ЕЛЕМЕНТИ ДЛЯ ТЕКСТУ */
         .info-hover-card-1,
         .info-hover-card-2,
         .info-hover-card-3 {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 8px;
-            padding: 10px 14px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            padding: 12px 16px;
             text-align: center;
             transition: all 0.25s ease;
             cursor: default;
         }
 
-        /* 1 ховер фон */
-        .info-hover-card-1:hover {
-            background: rgba(255, 255, 255, 0.07);
-            border-color: rgba(255, 255, 255, 0.15);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-        }
-
-        /* 2 ховер фон (з легким відтінком синюватого/сірого) */
-        .info-hover-card-2:hover {
-            background: rgba(255, 255, 255, 0.07);
+        .info-hover-card-1:hover,
+        .info-hover-card-2:hover,
+        .info-hover-card-3:hover {
+            background: rgba(255, 255, 255, 0.08);
             border-color: rgba(255, 255, 255, 0.2);
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-        }
-
-        /* 3 ховер фон (трохи яскравіший ефект) */
-        .info-hover-card-3:hover {
-            background: rgba(255, 255, 255, 0.07);
-            border-color: rgba(255, 255, 255, 0.3);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.4);
         }
 
         header {
@@ -221,6 +247,7 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.3);
             backdrop-filter: blur(4px);
             position: relative;
+            z-index: 1;
         }
 
         .player-hud {
@@ -276,6 +303,7 @@
             flex-grow: 1;
             width: 100%;
             position: relative;
+            z-index: 1;
         }
 
         .hand-area-wrapper {
@@ -403,10 +431,11 @@
             cursor: pointer;
         }
 
+        /* Зроблено картки трохи темнішими за рахунок затемненого фону та м'якшої тіні */
         .card {
             width: 80px;
             height: 120px;
-            background: #ffffff;
+            background: #f0f0f0;
             color: #111;
             border-radius: 8px;
             display: flex;
@@ -416,10 +445,10 @@
             font-weight: bold;
             font-size: 18px;
             cursor: pointer;
-            box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.6);
             transition: transform 0.2s;
             position: relative;
-            border: 1px solid #ccc;
+            border: 1px solid #b5b5b5;
             flex-shrink: 0;
         }
 
@@ -429,14 +458,15 @@
         }
 
         .card.red {
-            color: #d32f2f;
+            color: #c62828;
         }
 
         .card.back {
-            background: linear-gradient(135deg, #d32f2f 50%, #212121 50%);
-            border: 2px solid #fff;
+            background: linear-gradient(135deg, #b71c1c 50%, #1a1a1a 50%);
+            border: 2px solid #ddd;
             color: transparent;
             cursor: default;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.6);
         }
         .card.back:hover {
             transform: none;
@@ -446,10 +476,10 @@
             position: absolute;
             width: 80px;
             height: 120px;
-            background: linear-gradient(135deg, #d32f2f 50%, #212121 50%);
-            border: 2px solid #fff;
+            background: linear-gradient(135deg, #b71c1c 50%, #1a1a1a 50%);
+            border: 2px solid #ddd;
             border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.6);
             z-index: 2;
             right: 0;
         }
@@ -459,7 +489,7 @@
             width: 80px;
             height: 120px;
             border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.6);
             transform: rotate(90deg) translateY(-20px);
             transform-origin: center;
             right: 40px;
@@ -471,7 +501,7 @@
             transform: rotate(90deg) translateY(-35px) scale(1.15);
             right: 75px;
             z-index: 7;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.7);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.8);
         }
 
         .deck-counter {
@@ -680,12 +710,12 @@
             <h1>FOOLCARD</h1>
             <!-- 1 ховер фон для тексту "Вітаємо!" -->
             <div class="info-hover-card-1" style="margin-bottom: 12px;">
-                <p id="welcome-user" style="margin-bottom: 0; color: #9e9e9e; font-size: 15px;">Вітаємо!</p>
+                <p id="welcome-user" style="margin-bottom: 0; color: #b0bec5; font-size: 15px;">Вітаємо!</p>
             </div>
             <div class="menu-buttons">
                 <button onclick="showPlayMenu()">Грати</button>
-                <button onclick="openProfileModal()" style="background: #37474f; color: #fff;">Профіль</button>
-                <button onclick="openRulesModal(false)" style="background: #37474f; color: #fff;">Правила гри</button>
+                <button onclick="openProfileModal()" style="background: rgba(255, 255, 255, 0.1); color: #fff; border: 1px solid rgba(255,255,255,0.15);">Профіль</button>
+                <button onclick="openRulesModal(false)" style="background: rgba(255, 255, 255, 0.1); color: #fff; border: 1px solid rgba(255,255,255,0.15);">Правила гри</button>
             </div>
         </div>
     </div>
@@ -700,7 +730,7 @@
             <div id="tab-create" class="tab-content active">
                 <!-- 2 ховер фон для "Ваш нік для друга:" та коду -->
                 <div class="info-hover-card-2">
-                    <p style="margin-bottom: 0; color: #9e9e9e; font-size: 13px;">Ваш нік для друга:</p>
+                    <p style="margin-bottom: 0; color: #b0bec5; font-size: 13px;">Ваш нік для друга:</p>
                     <h1 id="room-code-display" style="color: #ffffff; font-size: 24px; letter-spacing: 2px; margin: 4px 0; word-break: break-all;">----</h1>
                 </div>
                 
@@ -709,13 +739,13 @@
                     <p id="wait-status" style="font-size: 13px; margin-bottom: 0; color: #e0e0e0;">Очікування підключення...</p>
                 </div>
 
-                <button onclick="returnToMainFromPlay()" style="background: #37474f; color: #fff;">Назад</button>
+                <button onclick="returnToMainFromPlay()" style="background: rgba(255, 255, 255, 0.1); color: #fff; border: 1px solid rgba(255,255,255,0.15);">Назад</button>
             </div>
 
             <div id="tab-join" class="tab-content">
                 <input type="text" id="room-code-input" maxlength="20" placeholder="Нік друга" style="margin-bottom: 0;" />
                 <button onclick="connectToGame()">Грати</button>
-                <button onclick="returnToMainFromPlay()" style="background: #37474f; color: #fff;">Назад</button>
+                <button onclick="returnToMainFromPlay()" style="background: rgba(255, 255, 255, 0.1); color: #fff; border: 1px solid rgba(255,255,255,0.15);">Назад</button>
             </div>
         </div>
     </div>
@@ -734,7 +764,7 @@
             <input type="text" id="profile-nickname-input" maxlength="20" placeholder="Нікнейм" />
 
             <div style="display: flex; gap: 10px; margin-top: 15px;">
-                <button onclick="closeProfileModal()" style="background: #37474f; color: #fff;">Скасувати</button>
+                <button onclick="closeProfileModal()" style="background: rgba(255, 255, 255, 0.1); color: #fff; border: 1px solid rgba(255,255,255,0.15);">Скасувати</button>
                 <button onclick="saveProfile()" style="background: #ffffff; color: #121212;">Зберегти</button>
             </div>
         </div>
@@ -835,8 +865,8 @@
             <p>Гру призупинено. Виберіть подальшу дію:</p>
             <div style="display: flex; flex-direction: column; gap: 12px;">
                 <button onclick="closePauseModal()" style="background: #ffffff; color: #121212;">Назад</button>
-                <button onclick="openRulesModal(true)" style="background: #37474f; color: #fff;">Правила гри</button>
-                <button onclick="returnToMenu()" style="background: #37474f; color: #fff;">Вийти в меню</button>
+                <button onclick="openRulesModal(true)" style="background: rgba(255, 255, 255, 0.1); color: #fff; border: 1px solid rgba(255,255,255,0.15);">Правила гри</button>
+                <button onclick="returnToMenu()" style="background: rgba(255, 255, 255, 0.1); color: #fff; border: 1px solid rgba(255,255,255,0.15);">Вийти в меню</button>
             </div>
         </div>
     </div>
