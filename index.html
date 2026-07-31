@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="logo.png">
     <title>FOOLCARD</title>
-    <!-- Підключаємо PeerJS для P2P з'єднання через код -->
     <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
     <style>
         * {
@@ -41,14 +40,12 @@
             z-index: 10;
         }
 
-        /* КРАСИВИЙ ФОН ДЛЯ ГОЛОВНОГО МЕНЮ ТА ЕКРАНІВ АВТОРИЗАЦІЇ/ГРИ */
         #main-menu, #auth-screen, #play-menu {
             background: radial-gradient(circle at center, #1b4d3e 0%, #0d231b 60%, #071410 100%);
             position: relative;
             overflow: hidden;
         }
 
-        /* Декоративні елементи (патерн карткових мастей на фоні головного меню та авторизації/меню гри) */
         #main-menu::before, #auth-screen::before, #play-menu::before {
             content: "♠ ♣ ♦ ♥ ♠ ♣ ♦ ♥";
             position: absolute;
@@ -164,7 +161,6 @@
             border-color: rgba(255, 255, 255, 0.5);
         }
 
-        /* Стилі для верхніх вкладок */
         .tabs-header {
             display: flex;
             background: rgba(12, 12, 12, 0.6);
@@ -185,17 +181,15 @@
             font-weight: bold;
             cursor: pointer;
             box-shadow: none;
-            border-radius: 0px; /* прибираємо фіксоване заокруглення */
+            border-radius: 0px;
             transition: background 0.2s, color 0.2s;
             width: auto;
         }
 
-        /* Заокруглюємо лівий край першої кнопки */
         .tab-btn:first-child {
             border-radius: 8px 0px 0px 8px;
         }
 
-        /* Заокруглюємо правий край другої кнопки (відзеркалено) */
         .tab-btn:last-child {
             border-radius: 0px 8px 8px 0px;
         }
@@ -222,7 +216,6 @@
             gap: 12px;
         }
 
-        /* ХОВЕР-ЕЛЕМЕНТИ ДЛЯ ТЕКСТУ */
         .info-hover-card-1,
         .info-hover-card-2,
         .info-hover-card-3 {
@@ -438,10 +431,9 @@
             display: flex;
             align-items: center;
             justify-content: flex-end;
-            cursor: pointer;
+            cursor: default;
         }
 
-        /* Зроблено картки трохи темнішими за рахунок затемненого фону та м'якшої тіні */
         .card {
             width: 80px;
             height: 120px;
@@ -674,7 +666,6 @@
             100% { opacity: 0; transform: translateY(-15px); }
         }
 
-        /* Стилі для нічиєї (золотий/нейтральний колір) */
         .modal-card.draw h2 {
             color: #ffd700;
         }
@@ -688,7 +679,6 @@
     </style>
 
     <script>
-    // Перевірка на мобільний пристрій
     function isMobileDevice() {
         return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     }
@@ -730,7 +720,6 @@
     <div id="main-menu" class="screen hidden">
         <div class="menu-container">
             <h1>FOOLCARD</h1>
-            <!-- 1 ховер фон для тексту "Вітаємо!" -->
             <div class="info-hover-card-1" style="margin-bottom: 12px;">
                 <p id="welcome-user" style="margin-bottom: 0; color: #b0bec5; font-size: 15px;">Вітаємо!</p>
             </div>
@@ -750,13 +739,11 @@
             </div>
 
             <div id="tab-create" class="tab-content active">
-                <!-- 2 ховер фон для "Ваш нік для друга:" та коду -->
                 <div class="info-hover-card-2">
                     <p style="margin-bottom: 0; color: #b0bec5; font-size: 13px;">Ваш нік для друга:</p>
                     <h1 id="room-code-display" style="color: #ffffff; font-size: 24px; letter-spacing: 2px; margin: 4px 0; word-break: break-all;">----</h1>
                 </div>
                 
-                <!-- 3 ховер фон для "Очікування підключення..." -->
                 <div class="info-hover-card-3">
                     <p id="wait-status" style="font-size: 13px; margin-bottom: 0; color: #e0e0e0;">Очікування підключення...</p>
                 </div>
@@ -815,6 +802,8 @@
                     <ul style="padding-left: 20px; display: flex; flex-direction: column; gap: 6px;">
                         <li>Мета гри — позбутися всіх карток у руці. Гравець, який залишився з картами останнім, програє («дурак»).</li>
                         <li>Карту можна побити картою тієї ж масті вищого номіналу або козирною картою (якщо нападник ходить не козирем).</li>
+                        <li>Підкидати можна лише карти такого ж номіналу, як на столі.</li>
+                        <li>Не можна підкидати більше карт, ніж є у захисника.</li>
                     </ul>
 
                     <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 10px 0;">
@@ -826,7 +815,7 @@
                         Забороняється продавати, поширювати, заявляти про право власності або використовувати цю онлайн гру з комерційною метою чи для надання платних послуг.<br><br>
                         Ця онлайн гра надається на умовах «як є», без жодних гарантій.<br><br>
                         Усі авторські права та права інтелектуальної власності належать solix.<br><br>
-                        <b>Версія гри:</b> v1.16
+                        <b>Версія гри:</b> v1.17
                     </div>
 
                     <p style="text-align: right; font-size: 12px; color: #888; margin-top: 10px;">signed by solix©</p>
@@ -1214,6 +1203,29 @@
             deck.sort(() => Math.random() - 0.5);
         }
 
+        function getMinTrump(hand) {
+            let trumps = hand.filter(c => c.suit === trumpSuit);
+            if (trumps.length === 0) return null;
+            return Math.min(...trumps.map(c => c.rank));
+        }
+
+        function determineFirstAttacker() {
+            if (!trumpSuit) return 'host';
+            
+            let hostMin = getMinTrump(hostHand);
+            let guestMin = getMinTrump(guestHand);
+            
+            if (hostMin === null && guestMin === null) {
+                return 'host';
+            }
+            
+            if (guestMin === null) return 'host';
+            if (hostMin === null) return 'guest';
+            
+            // Ходит тот, у кого МЕНЬШЕ козырь
+            return hostMin <= guestMin ? 'host' : 'guest';
+        }
+
         function startHostGame() {
             createDeck();
             discardPileCount = 0;
@@ -1229,25 +1241,11 @@
                 guestHand.push(deck.pop());
             }
 
-            let hostMin = getMinTrump(hostHand);
-            let guestMin = getMinTrump(guestHand);
-
-            if (guestMin !== null && (hostMin === null || guestMin < hostMin)) {
-                attacker = 'guest';
-                defender = 'host';
-            } else {
-                attacker = 'host';
-                defender = 'guest';
-            }
+            attacker = determineFirstAttacker();
+            defender = attacker === 'host' ? 'guest' : 'host';
 
             startGameScreen();
             checkActionState();
-        }
-
-        function getMinTrump(hand) {
-            let trumps = hand.filter(c => c.suit === trumpSuit);
-            if (trumps.length === 0) return null;
-            return Math.min(...trumps.map(c => c.rank));
         }
 
         function getMyHand() { return isHost ? hostHand : guestHand; }
@@ -1257,7 +1255,7 @@
             if (gameEnded) return;
             
             if (isHost) {
-                checkWinner();
+                checkWinnerAfterAction();
                 sendState();
                 updateUI();
             } else {
@@ -1378,15 +1376,23 @@
                 if (table.length === 0) {
                     statusText = "Ваш хід: атакуйте суперника.";
                 } else {
-                    statusText = "Можете підкинути карту або натиснути ЛКМ на «Бито».";
+                    const allDefended = table.every(p => p.defense !== null);
+                    if (allDefended) {
+                        statusText = "Ви атакуєте. Натисніть «Бито» або підкиньте карту.";
+                    } else {
+                        statusText = "Підкиньте карту або дочекайтесь відповіді суперника.";
+                    }
                 }
             } else {
                 if (table.length === 0) {
                     statusText = "Суперник ходить, очікуйте...";
-                } else if (table.some(p => p.defense === null)) {
-                    statusText = "Ваш захист! Відбийте карту або натисніть ЛКМ на карти на столі, щоб «Взяти».";
                 } else {
-                    statusText = "Очікування дій суперника...";
+                    const hasUnbeaten = table.some(p => p.defense === null);
+                    if (hasUnbeaten) {
+                        statusText = "Ваш захист! Відбийте карту або натисніть на карти, щоб «Взяти».";
+                    } else {
+                        statusText = "Очікування дій суперника...";
+                    }
                 }
             }
             document.getElementById('game-status').innerText = statusText;
@@ -1445,7 +1451,8 @@
             document.getElementById('table-area').innerHTML = tableHTML;
 
             const discardAreaBox = document.getElementById('discard-area-box');
-            const canDiscard = (myRole === attacker && table.length > 0 && table.every(p => p.defense !== null));
+            const myRoleCheck = isHost ? 'host' : 'guest';
+            const canDiscard = (myRoleCheck === attacker && table.length > 0 && table.every(p => p.defense !== null));
             if (canDiscard) {
                 discardAreaBox.classList.add('active-discard');
             } else {
@@ -1453,12 +1460,24 @@
             }
 
             const tableAreaBox = document.getElementById('table-area');
-            const canTake = (myRole === defender && table.length > 0 && table.some(p => p.defense === null));
+            const canTake = (myRoleCheck === defender && table.length > 0 && table.some(p => p.defense === null));
             if (canTake) {
                 tableAreaBox.classList.add('active-take');
             } else {
                 tableAreaBox.classList.remove('active-take');
             }
+        }
+
+        function canThrowCard(card) {
+            if (table.length === 0) return true;
+            
+            const allowedValues = new Set();
+            table.forEach(pair => {
+                allowedValues.add(pair.attack.value);
+                if (pair.defense) allowedValues.add(pair.defense.value);
+            });
+            
+            return allowedValues.has(card.value);
         }
 
         function onCardClick(value, suit) {
@@ -1471,28 +1490,23 @@
             const selectedCard = myHand[cardIndex];
 
             if (myRole === attacker) {
+                // Проверяем, можно ли подкинуть
                 if (table.length > 0) {
-                    const allowedValues = new Set();
-                    table.forEach(p => {
-                        allowedValues.add(p.attack.value);
-                        if (p.defense) allowedValues.add(p.defense.value);
-                    });
-                    if (!allowedValues.has(selectedCard.value)) {
+                    // Проверяем номинал
+                    if (!canThrowCard(selectedCard)) {
                         showToast("Можна підкидати карти лише такого ж номіналу!");
                         return;
                     }
-                    if (table.length >= 6 || table.length >= getOpponentHand().length) {
+                    
+                    // Проверяем лимит карт на столе
+                    const opponentHand = getOpponentHand();
+                    if (table.length >= 6 || table.length >= opponentHand.length) {
                         showToast("Ліміт карт на столі вичерпано!");
-                        return;
-                    }
-                } else {
-                    const currentThrowValues = table.map(p => p.attack.value);
-                    if (currentThrowValues.length > 0 && !currentThrowValues.includes(selectedCard.value)) {
-                        showToast("Можна кидати лише карти однакового номіналу!");
                         return;
                     }
                 }
 
+                // Удаляем карту из руки
                 myHand.splice(cardIndex, 1);
                 table.push({ attack: selectedCard, defense: null });
                 
@@ -1500,10 +1514,12 @@
                 checkActionState();
 
             } else if (myRole === defender) {
+                // Ищем непобитую карту
                 const unbeatPair = table.find(p => p.defense === null);
                 if (!unbeatPair) return;
 
                 const attackCard = unbeatPair.attack;
+                // Проверяем, бьет ли карта
                 const beats = (selectedCard.suit === attackCard.suit && selectedCard.rank > attackCard.rank) ||
                               (selectedCard.suit === trumpSuit && attackCard.suit !== trumpSuit);
 
@@ -1529,6 +1545,7 @@
                 table = [];
                 refillHands();
                 
+                // Меняем роли
                 let temp = attacker;
                 attacker = defender;
                 defender = temp;
@@ -1559,6 +1576,7 @@
         function refillHands() {
             if (gameEnded) return;
             
+            // Сначала добираем карты атакующему
             if (attacker === 'host') {
                 while (hostHand.length < 6 && deck.length > 0) hostHand.push(deck.pop());
                 while (guestHand.length < 6 && deck.length > 0) guestHand.push(deck.pop());
@@ -1566,54 +1584,93 @@
                 while (guestHand.length < 6 && deck.length > 0) guestHand.push(deck.pop());
                 while (hostHand.length < 6 && deck.length > 0) hostHand.push(deck.pop());
             }
-            checkWinner();
+            
+            checkWinnerAfterAction();
         }
 
-        function checkWinner() {
+        function checkWinnerAfterAction() {
             if (gameEnded) return;
             
-            // Перевіряємо на нічию: колода порожня і в обох гравців однакова кількість карт або 0 карт
-            if (deck.length === 0) {
-                // Якщо обидва без карт - нічия
-                if (hostHand.length === 0 && guestHand.length === 0) {
-                    triggerGameOver("Бито!", "Усі карти закінчилися.", true);
-                    return;
+            // Проверяем, есть ли победитель
+            if (hostHand.length === 0 && guestHand.length === 0) {
+                triggerGameOver("Бито!", "У всіх картки закінчилися.", true);
+                return true;
+            }
+            
+            if (hostHand.length === 0) {
+                triggerGameOver(
+                    isHost ? "Перемога!" : "Поразка!", 
+                    isHost ? "Ви виграли партію!" : "Суперник виявився сильнішим.",
+                    false
+                );
+                return true;
+            }
+            
+            if (guestHand.length === 0) {
+                triggerGameOver(
+                    isHost ? "Поразка!" : "Перемога!", 
+                    isHost ? "Суперник виявився сильнішим." : "Ви виграли партію!",
+                    false
+                );
+                return true;
+            }
+            
+            return false;
+        }
+
+        function triggerGameOver(title, desc, isDraw = false) {
+            if (gameEnded) return;
+            gameEnded = true;
+            
+            // Для ничьей используем особый заголовок
+            let finalTitle = title;
+            let finalDesc = desc;
+            
+            if (isDraw) {
+                finalTitle = "Бито!";
+                finalDesc = "У всіх картки закінчилися.";
+            }
+            
+            showGameOver(finalTitle, finalDesc, isDraw);
+            
+            if (conn) {
+                // Отправляем противоположный результат оппоненту
+                let opponentTitle = finalTitle;
+                let opponentDesc = finalDesc;
+                
+                if (!isDraw) {
+                    if (finalTitle === "Перемога!") {
+                        opponentTitle = "Поразка!";
+                        opponentDesc = "Суперник виявився сильнішим.";
+                    } else if (finalTitle === "Поразка!") {
+                        opponentTitle = "Перемога!";
+                        opponentDesc = "Ви виграли партію!";
+                    }
                 }
                 
-                // Якщо в одного гравця 0 карт, а в іншого > 0
-                if (hostHand.length === 0 && guestHand.length > 0) {
-                    triggerGameOver("Перемога", "Вітаємо! Ви виграли партію.", false);
-                } else if (guestHand.length === 0 && hostHand.length > 0) {
-                    triggerGameOver("Поразка!", "Суперник виявився сильнішим.", false);
-                }
+                conn.send({ 
+                    type: 'GAME_OVER', 
+                    title: opponentTitle,
+                    desc: opponentDesc,
+                    isDraw: isDraw
+                });
             }
         }
 
-function triggerGameOver(title, desc, isDraw = false) {
-    if (gameEnded) return;
-    gameEnded = true;
-    
-    if (isDraw || title === "Нічия") {
-        title = "Бито!";
-        desc = "Усі карти закінчилися.";
-    }
-    
-    showGameOver(title, desc);
-    if (conn) {
-        conn.send({ 
-            type: 'GAME_OVER', 
-            title: title === "Перемога!" ? "Поразка!" : (title === "Бито!" ? "Бито!" : "Перемога!"), 
-            desc: title === "Бито!" ? "Усі карти закінчилися." : "Партія завершена.",
-            isDraw: isDraw
-        });
-    }
-}
-
-function showGameOver(title, desc) {
-    document.getElementById('modal-title').innerText = title;
-    document.getElementById('modal-desc').innerText = desc;
-    document.getElementById('game-over-modal').classList.remove('hidden');
-}
+        function showGameOver(title, desc, isDraw = false) {
+            const modal = document.getElementById('game-over-modal');
+            const card = document.getElementById('game-over-card');
+            
+            if (isDraw || title === "Бито!") {
+                card.className = 'modal-card draw';
+            } else {
+                card.className = 'modal-card';
+            }
+            
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-desc').innerText = desc;
+            modal.classList.remove('hidden');
+        }
     </script>
 </body>
 </html>
