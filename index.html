@@ -604,7 +604,6 @@
         return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     }
 
-    // Якщо це мобільний пристрій — виводимо повідомлення та кнопку для переходу на мобільну версію
     if (isMobileDevice()) {
         document.addEventListener("DOMContentLoaded", () => {
             document.body.innerHTML = `
@@ -1139,8 +1138,7 @@
             }
 
             startGameScreen();
-            sendState();
-            updateUI();
+            checkActionState();
         }
 
         function getMinTrump(hand) {
@@ -1151,6 +1149,24 @@
 
         function getMyHand() { return isHost ? hostHand : guestHand; }
         function getOpponentHand() { return isHost ? guestHand : hostHand; }
+
+        function checkActionState() {
+            if (isHost) {
+                checkWinner();
+                sendState();
+                updateUI();
+            } else {
+                conn.send({
+                    type: 'STATE',
+                    state: {
+                        deck, hostHand, guestHand, table, discardPileCount, trumpSuit, trumpCard, attacker, defender,
+                        opponentNickname: myNickname,
+                        opponentAvatar: myAvatar
+                    }
+                });
+                updateUI();
+            }
+        }
 
         function sendState() {
             if (!conn) return;
@@ -1254,8 +1270,6 @@
             if (myRole === attacker) {
                 if (table.length === 0) {
                     statusText = "Ваш хід: атакуйте суперника.";
-                } else if (table.some(p => p.defense === null)) {
-                    statusText = "Очікування захисту суперника...";
                 } else {
                     statusText = "Можете підкинути карту або натиснути ЛКМ на «Бито».";
                 }
@@ -1362,14 +1376,18 @@
                         showToast("Ліміт карт на столі вичерпано!");
                         return;
                     }
-                    if (table.some(p => p.defense === null)) {
-                        showToast("Дочекайтеся, поки суперник відіб'ється!");
+                } else {
+                    const currentThrowValues = table.map(p => p.attack.value);
+                    if (currentThrowValues.length > 0 && !currentThrowValues.includes(selectedCard.value)) {
+                        showToast("Можна кидати лише карти однакового номіналу!");
                         return;
                     }
                 }
 
                 myHand.splice(cardIndex, 1);
                 table.push({ attack: selectedCard, defense: null });
+                
+                updateUI();
                 checkActionState();
 
             } else if (myRole === defender) {
@@ -1387,6 +1405,8 @@
 
                 myHand.splice(cardIndex, 1);
                 unbeatPair.defense = selectedCard;
+                
+                updateUI();
                 checkActionState();
             }
         }
@@ -1402,6 +1422,7 @@
                 attacker = defender;
                 defender = temp;
 
+                updateUI();
                 checkActionState();
             }
         }
@@ -1417,25 +1438,8 @@
                 table = [];
                 refillHands();
 
+                updateUI();
                 checkActionState();
-            }
-        }
-
-        function checkActionState() {
-            if (isHost) {
-                checkWinner();
-                sendState();
-                updateUI();
-            } else {
-                conn.send({
-                    type: 'STATE',
-                    state: {
-                        deck, hostHand, guestHand, table, discardPileCount, trumpSuit, trumpCard, attacker, defender,
-                        opponentNickname: myNickname,
-                        opponentAvatar: myAvatar
-                    }
-                });
-                updateUI();
             }
         }
 
