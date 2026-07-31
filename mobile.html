@@ -602,6 +602,18 @@ body {
             flex-direction: column;
         }
 
+        /* Стиль для нічиєї */
+        .modal-card.draw h2 {
+            color: #ffd700;
+        }
+        .modal-card.draw p {
+            color: #e0c070;
+        }
+        .modal-card.draw button {
+            background: #ffd700;
+            color: #1a1a1a;
+        }
+
         .rules-scroll-container {
             max-height: 50vh;
             overflow-y: auto;
@@ -873,7 +885,7 @@ body {
     </div>
 
     <div id="game-over-modal" class="modal-overlay hidden">
-        <div class="modal-card">
+        <div class="modal-card" id="game-over-card">
             <h2 id="modal-title">Перемога!</h2>
             <p id="modal-desc">Ви успішно перемогли.</p>
             <button onclick="returnToMenu()">Головне меню</button>
@@ -925,6 +937,7 @@ body {
         let defender = 'guest'; 
 
         let rulesOpenedFromPause = false;
+        let gameEnded = false;
 
         window.onload = () => {
             const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
@@ -1161,7 +1174,7 @@ body {
                     syncState(data.state);
                     updateUI();
                 } else if (data.type === 'GAME_OVER') {
-                    showGameOver(data.title, data.desc);
+                    showGameOver(data.title, data.desc, data.isDraw || false);
                 }
             });
 
@@ -1179,6 +1192,7 @@ body {
             opponentNickname = 'Суперник';
             opponentAvatar = 'ava.png';
             rulesOpenedFromPause = false;
+            gameEnded = false;
 
             document.getElementById('play-menu').classList.add('hidden');
             document.getElementById('game-screen').classList.add('hidden');
@@ -1195,6 +1209,7 @@ body {
             document.getElementById('pause-modal').classList.add('hidden');
             document.getElementById('rules-modal').classList.add('hidden');
             document.getElementById('game-screen').classList.remove('hidden');
+            gameEnded = false;
             
             if (conn && conn.open) {
                 conn.send({
@@ -1260,6 +1275,8 @@ body {
         function getOpponentHand() { return isHost ? guestHand : hostHand; }
 
         function checkActionState() {
+            if (gameEnded) return;
+            
             if (isHost) {
                 checkWinner();
                 sendState();
@@ -1322,6 +1339,8 @@ body {
         }
 
         function updateUI() {
+            if (gameEnded) return;
+            
             const deckCountEl = document.getElementById('deck-count');
             if (deck.length === 1) {
                 deckCountEl.innerText = "";
@@ -1428,6 +1447,8 @@ body {
         }
 
         function onCardClick(value, suit) {
+            if (gameEnded) return;
+            
             let myRole = isHost ? 'host' : 'guest';
             let myHand = getMyHand();
             const cardIndex = myHand.findIndex(c => c.value === value && c.suit === suit);
@@ -1485,6 +1506,8 @@ body {
         }
 
         function handleMainButton() {
+            if (gameEnded) return;
+            
             let myRole = isHost ? 'host' : 'guest';
             if (myRole === attacker && table.length > 0 && table.every(p => p.defense !== null)) {
                 discardPileCount += table.length * 2;
@@ -1501,6 +1524,8 @@ body {
         }
 
         function handleTakeButton() {
+            if (gameEnded) return;
+            
             let myRole = isHost ? 'host' : 'guest';
             let myHand = getMyHand();
             if (myRole === defender && table.length > 0 && table.some(p => p.defense === null)) {
@@ -1517,6 +1542,8 @@ body {
         }
 
         function refillHands() {
+            if (gameEnded) return;
+            
             if (attacker === 'host') {
                 while (hostHand.length < 6 && deck.length > 0) hostHand.push(deck.pop());
                 while (guestHand.length < 6 && deck.length > 0) guestHand.push(deck.pop());
@@ -1528,27 +1555,50 @@ body {
         }
 
         function checkWinner() {
+            if (gameEnded) return;
+            
+            // Перевіряємо на нічию: колода порожня і в обох гравців однакова кількість карт або 0 карт
             if (deck.length === 0) {
+                // Якщо обидва без карт - нічия
+                if (hostHand.length === 0 && guestHand.length === 0) {
+                    triggerGameOver("Бито!", "Усі карти закінчилися.", true);
+                    return;
+                }
+                
+                // Якщо в одного гравця 0 карт, а в іншого > 0
                 if (hostHand.length === 0 && guestHand.length > 0) {
-                    triggerGameOver("Перемога!", "Вітаємо! Ви виграли партію.");
+                    triggerGameOver("Перемога", "Вітаємо! Ви виграли партію.", false);
                 } else if (guestHand.length === 0 && hostHand.length > 0) {
-                    triggerGameOver("Поразка", "Суперник виявився спритнішим.");
+                    triggerGameOver("Поразка!", "Суперник виявився сильнішим.", false);
                 }
             }
         }
 
-        function triggerGameOver(title, desc) {
-            showGameOver(title, desc);
-            if (conn) {
-                conn.send({ type: 'GAME_OVER', title: title === "Перемога!" ? "Поразка" : "Перемога!", desc: "Партія завершена." });
-            }
-        }
+function triggerGameOver(title, desc, isDraw = false) {
+    if (gameEnded) return;
+    gameEnded = true;
+    
+    if (isDraw || title === "Нічия") {
+        title = "Бито!";
+        desc = "Усі карти закінчилися.";
+    }
+    
+    showGameOver(title, desc);
+    if (conn) {
+        conn.send({ 
+            type: 'GAME_OVER', 
+            title: title === "Перемога!" ? "Поразка!" : (title === "Бито!" ? "Бито!" : "Перемога!"), 
+            desc: title === "Бито!" ? "Усі карти закінчилися." : "Партія завершена.",
+            isDraw: isDraw
+        });
+    }
+}
 
-        function showGameOver(title, desc) {
-            document.getElementById('modal-title').innerText = title;
-            document.getElementById('modal-desc').innerText = desc;
-            document.getElementById('game-over-modal').classList.remove('hidden');
-        }
+function showGameOver(title, desc) {
+    document.getElementById('modal-title').innerText = title;
+    document.getElementById('modal-desc').innerText = desc;
+    document.getElementById('game-over-modal').classList.remove('hidden');
+}
     </script>
 </body>
 </html>
