@@ -195,9 +195,19 @@ body {
             font-weight: bold;
             cursor: pointer;
             box-shadow: none;
-            border-radius: 8px;
+            border-radius: 0px; /* прибираємо фіксоване заокруглення */
             transition: background 0.2s, color 0.2s;
             width: auto;
+        }
+
+        /* Заокруглюємо лівий край першої кнопки */
+        .tab-btn:first-child {
+            border-radius: 8px 0px 0px 8px;
+        }
+
+        /* Заокруглюємо правий край другої кнопки (відзеркалено) */
+        .tab-btn:last-child {
+            border-radius: 0px 8px 8px 0px;
         }
 
         .tab-btn.active {
