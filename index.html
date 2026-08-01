@@ -1543,25 +1543,32 @@
         }
 
 function checkWinner() {
-            if (deck.length === 0) {
-                if (hostHand.length === 0 && guestHand.length === 0) {
-                    triggerGameOver("Нічия!", "Партія завершилася нічиєю.");
-                } else if (hostHand.length === 0 && guestHand.length > 0) {
-                    triggerGameOver("Перемога!", "Вітаємо! Ви виграли партію.");
-                } else if (guestHand.length === 0 && hostHand.length > 0) {
-                    triggerGameOver("Поразка", "Суперник виявився спритнішим.");
-                }
-            }
-
-            return false;
+    if (deck.length === 0) {
+        if (hostHand.length === 0 && guestHand.length === 0) {
+            triggerGameOver("Нічия!", "Партія завершилася нічиєю.", "Нічия!");
+        } else if (hostHand.length === 0 && guestHand.length > 0) {
+            triggerGameOver("Перемога!", "Вітаємо! Ви виграли партію.", "Поразка");
+        } else if (guestHand.length === 0 && hostHand.length > 0) {
+            triggerGameOver("Поразка", "Суперник виявився спритнішим.", "Перемога!");
         }
+    }
 
-        function triggerGameOver(title, desc) {
-            showGameOver(title, desc);
-            if (conn) {
-                conn.send({ type: 'GAME_OVER', title: title === "Перемога!" ? "Поразка" : "Перемога!", desc: "Партія завершена." });
-            }
-        }
+    return false;
+}
+
+function triggerGameOver(title, desc, opponentTitle) {
+    showGameOver(title, desc);
+    if (conn) {
+        // Якщо opponentTitle передано, використовуємо його, інакше інвертуємо за старим правилом
+        let enemyTitle = opponentTitle ? opponentTitle : (title === "Перемога!" ? "Поразка" : "Перемога!");
+        
+        conn.send({ 
+            type: 'GAME_OVER', 
+            title: enemyTitle, 
+            desc: "Партія завершена." 
+        });
+    }
+}
 
         function showGameOver(title, desc) {
             document.getElementById('modal-title').innerText = title;
