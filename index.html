@@ -540,6 +540,25 @@
             z-index: 2;
         }
 
+        .profile-hover-card-1,
+        .profile-hover-card-2 {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            padding: 12px 16px;
+            text-align: center;
+            transition: all 0.25s ease;
+            cursor: default;
+        }
+
+        .profile-hover-card-1:hover,
+        .profile-hover-card-2:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+        }
+
         .modal-overlay {
             position: absolute;
             top: 0;
@@ -760,20 +779,24 @@
         </div>
     </div>
 
-    <div id="profile-modal" class="modal-overlay hidden">
+<div id="profile-modal" class="modal-overlay hidden">
         <div class="modal-card">
-            <h2>Профіль гравця</h2>
-            <p>Змініть аватарку або нікнейм</p>
-            
-            <div class="avatar-container" onclick="document.getElementById('avatar-file-input').click()">
-                <img id="profile-avatar-preview" src="ava.png" alt="Аватарка" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'90\' height=\'90\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%23888\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'><path d=\'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2\'></path><circle cx=\'12\' cy=\'7\' r=\'4\'></circle></svg>';">
-                <div class="avatar-overlay">Змінити</div>
+            <div class="profile-hover-card-1" style="margin-bottom: 12px;">
+                <h2 style="margin: 0 0 4px 0; font-size: 22px;">Профіль гравця</h2>
+                <p style="margin: 0; font-size: 14px;">Змініть аватарку або нікнейм</p>
             </div>
-            <input type="file" id="avatar-file-input" accept="image/*" style="display: none;" onchange="handleAvatarUpload(event)">
+            
+            <div class="profile-hover-card-2" style="margin-bottom: 12px;">
+                <div class="avatar-container" onclick="document.getElementById('avatar-file-input').click()" style="margin: 0 auto;">
+                    <img id="profile-avatar-preview" src="ava.png" alt="Аватарка" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'90\' height=\'90\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%23888\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'><path d=\'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2\'></path><circle cx=\'12\' cy=\'7\' r=\'4\'></circle></svg>';">
+                    <div class="avatar-overlay">Змінити</div>
+                </div>
+                <input type="file" id="avatar-file-input" accept="image/*" style="display: none;" onchange="handleAvatarUpload(event)">
+            </div>
 
             <input type="text" id="profile-nickname-input" maxlength="20" placeholder="Нікнейм" />
 
-            <div style="display: flex; gap: 10px; margin-top: 15px;">
+            <div style="display: flex; gap: 10px; margin-top: -2px;">
                 <button onclick="closeProfileModal()" style="background: rgba(255, 255, 255, 0.1); color: #fff; border: 1px solid rgba(255,255,255,0.15);">Скасувати</button>
                 <button onclick="saveProfile()" style="background: #ffffff; color: #121212;">Зберегти</button>
             </div>
@@ -782,7 +805,7 @@
 
     <div id="rules-modal" class="modal-overlay hidden">
         <div class="modal-card" style="max-width: 480px; text-align: left;">
-            <h2 style="text-align: center; margin-bottom: 15px;">Правила та інструкція</h2>
+            <h2 class="info-hover-card-1 style="text-align: center; margin-bottom: 15px;">Правила та інструкція</h2>
             
             <div class="rules-scroll-container">
                 <div style="font-size: 14px; color: #ccc; display: flex; flex-direction: column; gap: 12px; line-height: 1.4;">
@@ -814,7 +837,7 @@
                         Забороняється продавати, поширювати, заявляти про право власності або використовувати цю онлайн гру з комерційною метою чи для надання платних послуг.<br><br>
                         Ця онлайн гра надається на умовах «як є», без жодних гарантій.<br><br>
                         Усі авторські права та права інтелектуальної власності належать solix.<br><br>
-                        <b>Версія гри:</b> v1.15
+                        <b>Версія гри:</b> v1.98
                     </div>
 
                     <p style="text-align: right; font-size: 12px; color: #888; margin-top: 10px;">signed by solix©</p>
@@ -869,10 +892,13 @@
         </div>
     </div>
 
-    <div id="pause-modal" class="modal-overlay hidden">
+<div id="pause-modal" class="modal-overlay hidden">
         <div class="modal-card">
-            <h2>Пауза</h2>
-            <p>Гру призупинено. Виберіть подальшу дію:</p>
+            <div class="info-hover-card-1" style="margin-bottom: 15px;">
+                <h2 style="margin: 0 0 6px 0; font-size: 26px; color: #ffffff;">Меню</h2>
+                <p style="margin: 0; font-size: 15px; color: #9e9e9e;">Оберіть подальшу дію:</p>
+            </div>
+            
             <div style="display: flex; flex-direction: column; gap: 12px;">
                 <button onclick="closePauseModal()" style="background: #ffffff; color: #121212;">Назад</button>
                 <button onclick="openRulesModal(true)" style="background: rgba(255, 255, 255, 0.1); color: #fff; border: 1px solid rgba(255,255,255,0.15);">Правила гри</button>
