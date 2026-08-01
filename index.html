@@ -1542,35 +1542,17 @@
             checkWinner();
         }
 
-function checkWinner() {
-    const playersWithCards = turnOrder.filter(id => playerHands[id].length > 0);
-    
-    // Если колода пуста И ни у кого не осталось карт в руках — это ничья!
-    if (deck.length === 0 && playersWithCards.length === 0) {
-        triggerGameOver("Нічия!", "Гра закінчилася внічию: у всіх закінчилися карти.");
-        return true;
-    }
-    
-    // Если остался только один игрок с картами, а у остальных пусто (или наоборот, все вышли)
-    if (playersWithCards.length <= 1) {
-        // Если вообще ни у кого нет карт, но колода еще была (хотя обычно так не бывает)
-        if (playersWithCards.length === 0) {
-            triggerGameOver("Нічия!", "Гра закінчилася внічию.");
-            return true;
+        function checkWinner() {
+            if (deck.length === 0) {
+                if (hostHand.length === 0 && guestHand.length > 0) {
+                    triggerGameOver("Перемога!", "Вітаємо! Ви виграли партію.");
+                } else if (guestHand.length === 0 && hostHand.length > 0) {
+                    triggerGameOver("Поразка", "Суперник виявився спритнішим.");
+                }
+            }
+
+            return false;
         }
-        
-        const winner = playersWithCards[0];
-        const isMe = winner === myNickname;
-        
-        triggerGameOver(
-            isMe ? "Перемога!" : "Поразка",
-            isMe ? "Вітаємо! Ви виграли партію!" : `${winner} виграв гру!`
-        );
-        return true;
-    }
-    
-    return false;
-}
 
         function triggerGameOver(title, desc) {
             showGameOver(title, desc);
