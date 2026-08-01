@@ -1542,9 +1542,11 @@
             checkWinner();
         }
 
-        function checkWinner() {
+function checkWinner() {
             if (deck.length === 0) {
-                if (hostHand.length === 0 && guestHand.length > 0) {
+                if (hostHand.length === 0 && guestHand.length === 0) {
+                    triggerGameOver("Нічия!", "Партія завершилася нічиєю.");
+                } else if (hostHand.length === 0 && guestHand.length > 0) {
                     triggerGameOver("Перемога!", "Вітаємо! Ви виграли партію.");
                 } else if (guestHand.length === 0 && hostHand.length > 0) {
                     triggerGameOver("Поразка", "Суперник виявився спритнішим.");
