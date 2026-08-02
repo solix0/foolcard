@@ -1,0 +1,22 @@
+{
+  "name": "FOOLCARD",
+  "short_name": "FOOLCARD",
+  "description": "Класична карткова гра «Дурак» онлайн по P2P зв'язку",
+  "start_url": "mobile.html",
+  "display": "standalone",
+  "background_color": "#121212",
+  "theme_color": "#1b4d3e",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
