@@ -821,7 +821,7 @@ body {
 
     <div id="rules-modal" class="modal-overlay hidden">
         <div class="modal-card" style="text-align: left;">
-            <h2 class="info-hover-card-1 style="text-align: center; margin-bottom: 15px;">Правила та інструкція</h2>
+            <h2 class="info-hover-card-1" style="text-align: center; margin-bottom: 15px;">Правила та інструкція</h2>
             
             <div class="rules-scroll-container">
                 <div style="font-size: 13px; color: #ccc; display: flex; flex-direction: column; gap: 10px; line-height: 1.4;">
@@ -1410,6 +1410,25 @@ body {
             if (trumpCard && deck.length > 0) {
                 trumpView.style.display = 'flex';
                 trumpView.className = `card deck-card-trump ${trumpCard.color}`;
+                
+                // Зберігаємо оригінальний дизайн та ставимо затримку повернення на 2 секунди
+                trumpView.onclick = function() {
+                    if (trumpView.dataset.previewing === "true") return;
+                    trumpView.dataset.previewing = "true";
+
+                    // Тимчасово прибираємо поворот, щоб карту було зручно читати в нормальному положенні
+                    trumpView.style.transform = "rotate(0deg) translateY(0px)";
+                    trumpView.style.zIndex = "100";
+                    trumpView.style.transition = "transform 0.2s ease";
+
+                    // Через 2 секунди повертаємо назад під колоду в початковий стан
+                    setTimeout(() => {
+                        trumpView.style.transform = "rotate(90deg) translateY(-12px)";
+                        trumpView.style.zIndex = "1";
+                        trumpView.dataset.previewing = "false";
+                    }, 2000);
+                };
+
                 trumpView.innerHTML = `
                     <span>${trumpCard.value}</span>
                     <span style="font-size: 20px; text-align: center;">${trumpCard.suit}</span>
@@ -1419,6 +1438,7 @@ body {
             } else {
                 trumpView.style.display = 'none';
                 topView.style.display = 'none';
+                trumpView.onclick = null;
             }
 
             let oppHTML = '';
