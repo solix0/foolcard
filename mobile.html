@@ -725,9 +725,68 @@ body {
             85% { opacity: 1; transform: translateY(0); }
             100% { opacity: 0; transform: translateY(-15px); }
         }
+
+        #loader-screen {
+    background: radial-gradient(circle at center, #1b4d3e 0%, #0d231b 60%, #071410 100%);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: opacity 0.5s ease;
+}
+
+.loader-container {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.loader-spinner {
+    width: 80px;
+    height: 80px;
+    border: 6px solid rgba(255, 255, 255, 0.1);
+    border-top: 6px solid #ffffff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    position: absolute;
+    top: 0;
+    left: 0;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
+.loader-suit {
+    position: absolute;
+    font-size: 34px;
+    font-weight: bold;
+    line-height: 1;
+    z-index: 2;
+    pointer-events: none;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
     </style>
 </head>
 <body>
+
+    <div id="loader-screen">
+    <div class="loader-container">
+        <div class="loader-spinner"></div>
+        <span id="loader-suit-icon" class="loader-suit">♠</span>
+    </div>
+    <h2 style="color: #fff; margin-top: 20px; letter-spacing: 2px; font-size: 22px;">FOOLCARD</h2>
+</div>
 
 <div id="desktop-redirect-banner" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #121212; z-index: 9999; display: flex; align-items: center; justify-content: center;">
     <div style="background: #1a1a1a; padding: 30px; border-radius: 16px; text-align: center; max-width: 320px; border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 15px 35px rgba(0,0,0,0.7);">
@@ -1009,6 +1068,36 @@ body {
                 }
             }
         }
+
+window.addEventListener('load', () => {
+    const suitsList = ['♠', '♣', '♦', '♥'];
+    const suitColors = {'♠': '#111', '♣': '#111', '♦': '#c62828', '♥': '#c62828'};
+    const suitElement = document.getElementById('loader-suit-icon');
+    let suitIndex = 0;
+
+    if (suitElement) {
+        suitElement.innerText = suitsList[0];
+        suitElement.style.color = suitColors[suitsList[0]];
+
+        const suitInterval = setInterval(() => {
+            suitIndex = (suitIndex + 1) % suitsList.length;
+            const currentSuit = suitsList[suitIndex];
+            suitElement.innerText = currentSuit;
+            suitElement.style.color = suitColors[currentSuit];
+        }, 750);
+
+        setTimeout(() => {
+            clearInterval(suitInterval);
+            const loader = document.getElementById('loader-screen');
+            if (loader) {
+                loader.style.opacity = '0';
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                }, 500);
+            }
+        }, 3000);
+    }
+});
 
         function closePauseModal() {
             document.getElementById('pause-modal').classList.add('hidden');
